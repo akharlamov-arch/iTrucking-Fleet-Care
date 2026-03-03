@@ -1,0 +1,47 @@
+.breadcrumbs {
+  padding: 20px 40px;
+  background: #ffffff;
+}
+
+.container {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 14px;
+  color: #8A8A8A;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sep {
+  color: #C4C4C4;
+  margin: 0 2px;
+}
+
+.container a {
+  color: #8A8A8A;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.container a:hover {
+  color: #222222;
+}
+
+.current {
+  color: #222222;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .breadcrumbs {
+    padding: 14px 20px;
+  }
+}

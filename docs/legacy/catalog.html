@@ -1,0 +1,2996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tire Catalog - iTRUCKING Fleet Care</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Instrument Sans', sans-serif;
+            background: white;
+            color: #222222;
+        }
+
+        /* Header Styles */
+        header {
+            width: 100%;
+            padding: 20px 40px;
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Logo */
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 48px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #222222;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #D42C00;
+        }
+
+        /* Social Icons */
+        .social-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .social-icons a {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #F5F5F5;
+            border-radius: 50%;
+            transition: background 0.3s;
+        }
+
+        .social-icons a:hover {
+            background: #E0E0E0;
+        }
+
+        .social-icons svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 24px;
+            border: 1px solid #8A8A8A;
+            border-radius: 8px;
+            background: white;
+            color: #222222;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .cta-button:hover {
+            background: #222222;
+            color: white;
+        }
+
+        .cta-icon-img {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            position: relative;
+            z-index: 1002;
+            width: 44px;
+            height: 44px;
+        }
+
+        .mobile-menu-btn span {
+            width: 28px;
+            height: 3px;
+            background: #222222;
+            border-radius: 2px;
+            transition: all 0.3s;
+            display: block;
+        }
+
+        .mobile-menu-btn.active {
+            gap: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(1) {
+            transform: rotate(45deg);
+            margin-bottom: -3px;
+        }
+
+        .mobile-menu-btn.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn.active span:nth-child(3) {
+            transform: rotate(-45deg);
+            margin-top: -3px;
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            height: calc(100vh - 80px);
+            background: white;
+            padding: 40px;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu .nav-links {
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .mobile-menu .nav-links a {
+            font-size: 24px;
+        }
+
+        .mobile-menu .social-icons {
+            margin-top: 40px;
+        }
+
+        .mobile-menu .cta-button {
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .header-container {
+                max-width: 100%;
+            }
+
+            .nav-links {
+                gap: 24px;
+            }
+
+            nav {
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 16px 20px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+                top: 64px;
+                height: calc(100vh - 64px);
+            }
+
+            .logo-img {
+                height: 32px;
+            }
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            padding: 20px 40px;
+            background: white;
+        }
+
+        .breadcrumbs-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #8A8A8A;
+        }
+
+        .breadcrumbs a {
+            color: #8A8A8A;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumbs a:hover {
+            color: #222222;
+        }
+
+        .breadcrumbs span {
+            color: #222222;
+            font-weight: 500;
+        }
+
+        /* Mobile Filters Bar */
+        .mobile-filters-bar {
+            display: none;
+            padding: 16px 20px;
+            background: white;
+            border-bottom: 1px solid #E2E2E2;
+            gap: 12px;
+            justify-content: space-between;
+        }
+
+        .mobile-filter-btn,
+        .mobile-sort-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 10px 16px;
+            background: white;
+            border: 1px solid #E2E2E2;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #222222;
+            cursor: pointer;
+            font-family: 'Instrument Sans', sans-serif;
+            transition: all 0.3s;
+            flex: 1;
+        }
+
+        .mobile-filter-btn:hover,
+        .mobile-sort-btn:hover {
+            background: #F5F5F5;
+        }
+
+        .mobile-filter-btn svg,
+        .mobile-sort-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .mobile-btn-content {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+
+
+        /* Mobile Filters Sidebar */
+        .mobile-filters-sidebar {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 85%;
+            max-width: 320px;
+            background: white;
+            z-index: 2000;
+            overflow-y: auto;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+        }
+
+        .mobile-filters-sidebar.active {
+            display: block;
+            transform: translateX(0);
+        }
+
+        .mobile-filters-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .mobile-filters-overlay.active {
+            display: block;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+
+        .mobile-filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #E2E2E2;
+        }
+
+        .mobile-filters-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #222222;
+        }
+
+        .mobile-filters-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #222222;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mobile-filters-content {
+            padding: 20px;
+        }
+
+        .mobile-filters-actions {
+            position: sticky;
+            bottom: 0;
+            padding: 16px 20px;
+            background: white;
+            border-top: 1px solid #E2E2E2;
+            display: flex;
+            gap: 12px;
+        }
+
+        .mobile-apply-filters,
+        .mobile-clear-filters {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Instrument Sans', sans-serif;
+            transition: all 0.3s;
+        }
+
+        .mobile-apply-filters {
+            background: #222222;
+            color: white;
+            border: none;
+        }
+
+        .mobile-apply-filters:hover {
+            background: #000000;
+        }
+
+        .mobile-clear-filters {
+            background: white;
+            color: #222222;
+            border: 1px solid #E2E2E2;
+        }
+
+        .mobile-clear-filters:hover {
+            background: #F5F5F5;
+        }
+
+        /* Mobile Sort Select */
+        .mobile-sort-select-styled {
+            flex: 1;
+            padding: 10px 36px 10px 16px;
+            border: 1px solid #E2E2E2;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #222222;
+            background: white url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 6L8 10L12 6' stroke='%23222222' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 12px center;
+            cursor: pointer;
+            font-family: 'Instrument Sans', sans-serif;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .mobile-sort-select-styled:focus {
+            outline: none;
+            border-color: #222222;
+        }
+
+        /* Catalog Section */
+        .catalog {
+            padding: 40px 40px 180px 40px;
+            background: white;
+        }
+
+        .catalog-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 40px;
+        }
+
+        /* Sidebar Filters */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-group {
+            background: white;
+            border-radius: 8px;
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background: #5A5A5A;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .filter-header.collapsed {
+            background: white;
+            color: #222222;
+            border: 1px solid #E2E2E2;
+            border-radius: 8px;
+        }
+
+        .filter-header svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s;
+            transform: rotate(180deg);
+        }
+
+        .filter-header.collapsed svg {
+            transform: rotate(0deg);
+        }
+
+        .filter-content {
+            padding: 16px;
+            background: #5A5A5A;
+            border-radius: 0 0 8px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .filter-content.hidden {
+            display: none;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .filter-item input[type="checkbox"],
+        .filter-item input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .filter-item label {
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        /* DOT Block */
+        .dot-block {
+            background: #F5F5F5;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .dot-block-text {
+            font-size: 14px;
+            font-weight: 500;
+            color: #4D4D4D;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+
+        .dot-logos {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .dot-logos img {
+            height: 40px;
+            width: auto;
+        }
+
+        .dot-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #E2E2E2;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .dot-submit {
+            width: 100%;
+            padding: 12px 16px;
+            background: #222222;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-family: 'Instrument Sans', sans-serif;
+        }
+
+        .dot-submit:hover {
+            background: #000000;
+        }
+
+        /* Main Content */
+        .catalog-main {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .catalog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .clear-filters {
+            font-size: 14px;
+            font-weight: 500;
+            color: #8A8A8A;
+            text-decoration: underline;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .clear-filters:hover {
+            color: #222222;
+        }
+
+        .sort-by {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #222222;
+            cursor: pointer;
+        }
+
+        .sort-by svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .sort-by-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sort-by-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #222222;
+            white-space: nowrap;
+        }
+
+        .sort-select {
+            padding: 8px 32px 8px 12px;
+            border: 1px solid #E2E2E2;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #222222;
+            background: white;
+            cursor: pointer;
+            font-family: 'Instrument Sans', sans-serif;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23222222' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            min-width: 180px;
+        }
+
+        .sort-select:focus {
+            outline: none;
+            border-color: #222222;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .tire-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: opacity 0.3s ease;
+        }
+
+        .tire-card[style*="display: none"] {
+            opacity: 0;
+        }
+
+        .tire-image {
+            position: relative;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 280px;
+            overflow: hidden;
+        }
+
+        .tire-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .tire-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .tire-badge-red {
+            background: #D42C00;
+        }
+
+        .tire-badge-blue {
+            background: #4169E1;
+        }
+
+        .tire-info {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex: 1;
+        }
+
+        .tire-pricing {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tire-price {
+            font-size: 24px;
+            font-weight: 600;
+            color: #222222;
+        }
+
+        .tire-old-price {
+            font-size: 14px;
+            font-weight: 500;
+            color: #8A8A8A;
+            text-decoration: line-through;
+        }
+
+        .tire-discount {
+            font-size: 14px;
+            font-weight: 600;
+            color: #D42C00;
+        }
+
+        .tire-name {
+            font-size: 20px;
+            font-weight: 600;
+            color: #222222;
+            line-height: 1.3;
+        }
+
+        .tire-size {
+            font-size: 16px;
+            font-weight: 500;
+            color: #4D4D4D;
+        }
+
+        .tire-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tire-tag {
+            padding: 4px 12px;
+            background: #F5F5F5;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            color: #4D4D4D;
+        }
+
+        .tire-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: auto;
+        }
+
+        .tire-btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .tire-btn-primary {
+            background: #222222;
+            color: white;
+        }
+
+        .tire-btn-primary:hover {
+            background: #000000;
+        }
+
+        .tire-btn-secondary {
+            background: #F5F5F5;
+            color: #222222;
+        }
+
+        .tire-btn-secondary:hover {
+            background: #E2E2E2;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 40px;
+        }
+
+        .pagination a,
+        .pagination span {
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #222222;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+        }
+
+        .pagination a:hover {
+            background: #F5F5F5;
+        }
+
+        .pagination .active {
+            background: #222222;
+            color: white;
+        }
+
+        .pagination .prev,
+        .pagination .next {
+            color: #8A8A8A;
+        }
+
+        /* Footer (same as main page) */
+        .footer {
+            background: #F5F5F5;
+            padding: 120px 40px 40px 40px;
+        }
+
+        .footer-container {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #E2E2E2;
+            margin-bottom: 40px;
+        }
+
+        .footer-tagline {
+            font-size: 16px;
+            font-weight: 500;
+            color: #4D4D4D;
+        }
+
+        .footer-email-large {
+            font-size: 32px;
+            font-weight: 600;
+            color: #D42C00;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .footer-email-large:hover {
+            opacity: 0.8;
+        }
+
+        .footer-main {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr 1fr;
+            gap: 80px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-logo-col {
+            justify-content: flex-start;
+        }
+
+        .footer-logo img {
+            height: 60px;
+            width: auto;
+        }
+
+        .footer-contact-col {
+            gap: 20px;
+        }
+
+        .footer-contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #4D4D4D;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-contact-item:hover {
+            color: #222222;
+        }
+
+        .footer-contact-item svg {
+            flex-shrink: 0;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .footer-social-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: white;
+            border: 1px solid #E2E2E2;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #4D4D4D;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .footer-social-btn:hover {
+            background: #222222;
+            color: white;
+            border-color: #222222;
+        }
+
+        .footer-social-instagram:hover svg path {
+            fill: #D42C00;
+        }
+
+        .footer-social-facebook:hover svg path {
+            fill: #1877F2;
+        }
+
+        .footer-catalog-col {
+            gap: 20px;
+        }
+
+        .footer-column-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #222222;
+            margin-bottom: 8px;
+        }
+
+        .footer-nav {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .footer-nav a {
+            font-size: 16px;
+            font-weight: 500;
+            color: #4D4D4D;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-nav a:hover {
+            color: #D42C00;
+        }
+
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 40px;
+            border-top: 1px solid #E2E2E2;
+        }
+
+        .footer-copyright {
+            font-size: 14px;
+            font-weight: 500;
+            color: #4D4D4D;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .footer-links a {
+            font-size: 14px;
+            font-weight: 500;
+            color: #8A8A8A;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #222222;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .catalog-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                order: 2;
+            }
+
+            .catalog-main {
+                order: 1;
+            }
+
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .catalog-header {
+                flex-wrap: wrap;
+            }
+
+            .sort-by-wrapper {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .sort-select {
+                flex: 1;
+                max-width: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 16px 20px;
+            }
+
+            .logo-img {
+                height: 32px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .mobile-menu {
+                display: block;
+                top: 64px;
+                height: calc(100vh - 64px);
+            }
+
+            .breadcrumbs {
+                display: none;
+            }
+
+            .mobile-filters-bar {
+                display: flex;
+            }
+
+            .catalog {
+                padding: 20px 20px 80px 20px;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .catalog-header {
+                display: none;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .mobile-filters-content .dot-block {
+                display: none;
+            }
+
+            .footer {
+                padding: 40px 20px 30px 20px;
+            }
+
+            .footer-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 24px;
+                padding-bottom: 30px;
+                margin-bottom: 30px;
+            }
+
+            .footer-email-large {
+                font-size: 24px;
+                word-break: break-all;
+            }
+
+            .footer-main {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                margin-bottom: 30px;
+            }
+
+            .footer-logo img {
+                height: 40px;
+            }
+
+            .footer-contact-item {
+                font-size: 14px;
+            }
+
+            .footer-social {
+                flex-direction: row;
+                gap: 12px;
+            }
+
+            .footer-social-btn {
+                flex: 1;
+                justify-content: center;
+            }
+
+            .footer-nav {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-nav a {
+                font-size: 14px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+                padding-top: 30px;
+            }
+
+            .footer-links {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+
+        /* Active Filter Tags (mobile) */
+        .active-filters-bar {
+            display: none;
+            padding: 8px 20px 10px;
+            background: white;
+            gap: 8px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid #E2E2E2;
+        }
+
+        .active-filters-bar.has-filters {
+            display: flex;
+        }
+
+        .active-filter-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            background: #222222;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .active-filter-tag button {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0;
+            font-size: 14px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .active-filter-tag button:hover {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .active-filters-bar.has-filters {
+                display: flex;
+            }
+
+            /* Compact filter headers on mobile */
+            .mobile-filters-content .filter-header {
+                padding: 10px 14px;
+                font-size: 14px;
+            }
+
+            /* Gap between filter groups in mobile sidebar */
+            .mobile-filters-content {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+
+        .clear-all-tags {
+            background: none;
+            border: none;
+            font-size: 12px;
+            font-weight: 500;
+            color: #222222;
+            cursor: pointer;
+            text-decoration: underline;
+            font-family: 'Instrument Sans', sans-serif;
+            padding: 4px 2px;
+            white-space: nowrap;
+            align-self: center;
+        }
+
+        .clear-all-tags:hover {
+            color: #D42C00;
+        }
+
+        /* How it works / Pickup & Delivery section */
+        .section-badge {
+            display: inline-flex;
+            padding: 5px 20px;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            border-radius: 100px;
+            border: 1px solid #E2E2E2;
+            background: transparent;
+            font-size: 16px;
+            font-weight: 500;
+            color: #231E20;
+            width: fit-content;
+            margin-bottom: 20px;
+        }
+
+        .badge-bullet {
+            color: #D42C00;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1.3;
+            color: #222222;
+            margin-bottom: 16px;
+        }
+
+        .section-title .highlight {
+            color: #D42C00;
+        }
+
+        .pickup-delivery {
+            padding: 0px 40px 120px 40px;
+            background: white;
+        }
+
+        .pickup-delivery-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 710px;
+            column-gap: 80px;
+            align-items: center;
+        }
+
+        .pickup-content {
+            max-width: 650px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .pickup-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #4D4D4D;
+            line-height: 1.6;
+        }
+
+        .pickup-text strong {
+            color: #222222;
+            font-weight: 600;
+        }
+
+        .pickup-video {
+            width: 710px;
+            height: 420px;
+        }
+
+        .pickup-video video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .call-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 28px;
+            background: #5A5A5A;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.3s;
+            align-self: flex-start;
+        }
+
+        .call-button:hover {
+            background: #222222;
+        }
+
+        .call-button svg {
+            width: 24px;
+            height: 15px;
+        }
+
+        @media (max-width: 1024px) {
+            .pickup-delivery {
+                padding: 0px 20px 80px 20px;
+            }
+            .pickup-delivery-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .pickup-content {
+                max-width: 100%;
+            }
+            .pickup-video {
+                width: 100%;
+                max-width: 710px;
+                height: auto;
+                aspect-ratio: 710 / 420;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .pickup-delivery {
+                padding: 0px 20px 80px 20px;
+            }
+            .pickup-delivery-container {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+            }
+            .pickup-content {
+                display: contents;
+            }
+            .pickup-content .section-badge {
+                order: 1;
+                font-size: 14px;
+                align-self: flex-start;
+                margin-bottom: 0;
+            }
+            .pickup-content .section-title {
+                order: 2;
+                font-size: 22px;
+                margin-bottom: 0;
+                align-self: flex-start;
+            }
+            .pickup-video {
+                order: 3;
+                width: 100%;
+                height: auto;
+            }
+            .pickup-text {
+                order: 4;
+                font-size: 14px;
+                align-self: flex-start;
+            }
+            .call-button {
+                order: 5;
+                width: 100%;
+                justify-content: center;
+                font-size: 14px;
+                padding: 14px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <svg width="223" height="40" viewBox="0 0 223 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-img">
+                    <g clip-path="url(#clip0_1_3291)">
+                    <mask id="mask0_1_3291" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="-37" width="223" height="102">
+                    <path d="M223 -36.2791H0V64.186H223V-36.2791Z" fill="white"/>
+                    </mask>
+                    <g mask="url(#mask0_1_3291)">
+                    <path d="M3.8615 18.0987L0.00390625 28.2406H10.1837L14.0412 18.0987H3.8615Z" fill="#D52C00"/>
+                    <mask id="mask1_1_3291" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-33" y="-51" width="289" height="130">
+                    <path d="M-32.9258 -50.8689H255.081V78.7914H-32.9258V-50.8689Z" fill="white"/>
+                    </mask>
+                    <g mask="url(#mask1_1_3291)">
+                    <path d="M25.1758 28.2406H31.118C33.6685 28.2406 35.9532 26.669 36.857 24.2928L39.213 18.0986H29.0333L25.1758 28.2406Z" fill="#D52C00"/>
+                    </g>
+                    <mask id="mask2_1_3291" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-33" y="-51" width="289" height="130">
+                    <path d="M-32.9258 -50.8689H255.081V78.7914H-32.9258V-50.8689Z" fill="white"/>
+                    </mask>
+                    <g mask="url(#mask2_1_3291)">
+                    <path d="M15.1037 -0.318008C12.5533 -0.318008 10.2687 1.2535 9.36483 3.62964L7.00879 9.82378H19.595L12.59 28.2405H22.7698L29.7746 9.82378H42.3608L46.2185 -0.318008H15.1037Z" fill="#D52C00"/>
+                    </g>
+                    <mask id="mask3_1_3291" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-33" y="-51" width="289" height="130">
+                    <path d="M-32.9258 -50.8689H255.081V78.7914H-32.9258V-50.8689Z" fill="white"/>
+                    </mask>
+                    <g mask="url(#mask3_1_3291)">
+                    <path d="M54.028 10.1594H58.1082V23.2785H54.028V10.1594ZM54.002 4.59351H58.1342V8.19942H54.002V4.59351Z" fill="#231F20"/>
+                    </g>
+                    <mask id="mask4_1_3291" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-33" y="-51" width="289" height="130">
+                    <path d="M-32.9258 -50.8689H255.081V78.7914H-32.9258V-50.8689Z" fill="white"/>
+                    </mask>
+                    <g mask="url(#mask4_1_3291)">
+                    <path d="M68.571 8.32542H61.8496V4.59349H79.5824V8.32542H72.8865V23.2785H68.571V8.32542Z" fill="#231F20"/>
+                    </g>
+                    <mask id="mask5_1_3291" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-33" y="-51" width="289" height="130">
+                    <path d="M-32.9258 -50.8689H255.081V78.7914H-32.9258V-50.8689Z" fill="white"/>
+                    </mask>
+                    <g mask="url(#mask5_1_3291)">
+                    <path d="M92.6851 13.52C95.0128 13.52 96.0591 12.9652 96.0591 10.8471C96.0591 8.67851 95.0648 8.12378 92.6324 8.12378H87.6376V13.52H92.6851ZM91.9785 17.0754H87.6376V23.2785H83.4521V4.59349H92.8159C98.9099 4.59349 100.374 7.11504 100.374 10.6958C100.374 13.2678 99.5111 15.6381 96.294 16.6215L100.139 23.2785H95.562L91.9785 17.0754Z" fill="#231F20"/>
+                    </g>
+                    <mask id="mask6_1_3291" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-33" y="-51" width="289" height="130">
+                    <path d="M-32.9258 -50.8689H255.081V78.7914H-32.9258V-50.8689Z" fill="white"/>
+                    </mask>
+                    <g mask="url(#mask6_1_3291)">
+                    <path d="M104.82 16.1424V4.59355H109.109V15.6129C109.109 18.3867 109.816 19.9753 113.739 19.9753C117.636 19.9753 118.394 18.4876 118.394 15.6129V4.59355H122.553V16.1424C122.553 19.7231 121.847 23.6316 113.686 23.6316C105.5 23.6316 104.82 19.7231 104.82 16.1424Z" fill="#231F20"/>
+                    </g>
+                    <mask id="mask7_1_3291" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-33" y="-51" width="289" height="130">
+                    <path d="M-32.9258 -50.8689H255.081V78.7914H-32.9258V-50.8689Z" fill="white"/>
+                    </mask>
+                    <g mask="url(#mask7_1_3291)">
+                    <path d="M126.686 13.9234C126.686 7.21598 130.479 4.29088 136.912 4.29088C140.443 4.29088 142.692 5.1987 144.523 6.98904L141.568 9.83838C140.391 8.72892 139.004 8.07334 136.886 8.07334C132.753 8.07334 131.001 10.0906 131.001 13.9739C131.001 17.731 132.466 19.8744 136.912 19.8744C139.423 19.8744 140.626 19.0675 141.829 17.9832L144.654 20.6561C143.111 22.1943 141.045 23.5559 136.651 23.5559C129.406 23.5559 126.686 20.1014 126.686 13.9234Z" fill="#231F20"/>
+                    </g>
+                    <mask id="mask8_1_3291" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-33" y="-51" width="289" height="130">
+                    <path d="M-32.9258 -50.8689H255.081V78.7914H-32.9258V-50.8689Z" fill="white"/>
+                    </mask>
+                    <g mask="url(#mask8_1_3291)">
+                    <path d="M156.136 15.1338L153.39 18.2606V23.2785H149.152V4.59351H153.39V13.0409L160.739 4.59351H165.473L158.909 11.9818L166.415 23.2785H161.576L156.136 15.1338Z" fill="#231F20"/>
+                    </g>
+                    <mask id="mask9_1_3291" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-33" y="-51" width="289" height="130">
+                    <path d="M-32.9258 -50.8689H255.081V78.7914H-32.9258V-50.8689Z" fill="white"/>
+                    </mask>
+                    <g mask="url(#mask9_1_3291)">
+                    <path d="M170.888 4.59349H175.151V23.2785H170.888V4.59349Z" fill="#231F20"/>
+                    </g>
+                    <mask id="mask10_1_3291" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-33" y="-51" width="289" height="130">
+                    <path d="M-32.9258 -50.8689H255.081V78.7914H-32.9258V-50.8689Z" fill="white"/>
+                    </mask>
+                    <g mask="url(#mask10_1_3291)">
+                    <path d="M180.879 4.59349H185.509L194.427 16.3694V4.59349H198.507V23.2785H194.584L184.986 10.6706V23.2785H180.879V4.59349Z" fill="#231F20"/>
+                    </g>
+                    <mask id="mask11_1_3291" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="-33" y="-51" width="289" height="130">
+                    <path d="M-32.9258 -50.8689H255.081V78.7914H-32.9258V-50.8689Z" fill="white"/>
+                    </mask>
+                    <g mask="url(#mask11_1_3291)">
+                    <path d="M202.927 13.9234C202.927 7.16552 206.588 4.29088 213.127 4.29088C217.05 4.29088 219.43 5.40041 220.974 6.93865L218.044 9.78805C217.05 8.88024 215.769 8.07334 213.101 8.07334C208.864 8.07334 207.216 10.0906 207.216 13.9739C207.216 18.0588 208.367 20.0762 213.049 20.0762C216.815 20.0762 217.913 18.8658 217.913 16.2433V15.8398H212.499V12.4105H222.15V15.4616C222.15 20.7821 219.953 23.5559 212.839 23.5559C205.098 23.5559 202.927 20.1265 202.927 13.9234Z" fill="#231F20"/>
+                    </g>
+                    <path d="M126.691 40.0939V29.0881H134.723V31.2868H129.135V33.6483H134.574V35.8165H129.135V40.0939H126.691ZM136.412 40.0939V29.0881H138.856V37.9847H144.28V40.0939H136.412ZM145.609 40.0939V29.0881H153.909V31.2868H148.052V33.4252H153.76V35.5493H148.052V37.9847H153.969V40.0939H145.609ZM155.839 40.0939V29.0881H164.139V31.2868H158.283V33.4252H163.99V35.5493H158.283V37.9847H164.199V40.0939H155.839ZM169.005 40.0939V31.2868H165.175V29.0881H175.278V31.2868H171.463V40.0939H169.005ZM184.873 40.2573C180.746 40.2573 179.196 38.2227 179.196 34.5835C179.196 30.633 181.357 28.9104 185.022 28.9104C187.034 28.9104 188.315 29.4448 189.359 30.4994L187.674 32.178C187.004 31.5242 186.214 31.1383 185.007 31.1383C182.653 31.1383 181.655 32.3265 181.655 34.6134C181.655 36.8263 182.489 38.0891 185.022 38.0891C186.453 38.0891 187.138 37.6137 187.823 36.9749L189.433 38.5496C188.554 39.4557 187.376 40.2573 184.873 40.2573ZM189.783 40.0939L194.208 29.0142H196.682L201.138 40.0939H198.605L197.889 38.2818H192.882L192.167 40.0939H189.783ZM193.657 36.277H197.114L195.385 31.8952L193.657 36.277ZM209.349 40.0939L207.307 36.4404H204.834V40.0939H202.45V29.0881H207.784C211.256 29.0881 212.091 30.5734 212.091 32.6826C212.091 34.1976 211.599 35.594 209.766 36.1732L211.957 40.0939H209.349ZM204.834 34.3462H207.71C209.036 34.3462 209.632 34.0193 209.632 32.7721C209.632 31.4944 209.065 31.1675 207.68 31.1675H204.834V34.3462ZM213.96 40.0939V29.0881H222.26V31.2868H216.404V33.4252H222.111V35.5493H216.404V37.9847H222.32V40.0939H213.96Z" fill="#D42C00"/>
+                    </g>
+                    </g>
+                    <defs>
+                    <clipPath id="clip0_1_3291">
+                    <rect width="223" height="40" fill="white"/>
+                    </clipPath>
+                    </defs>
+                </svg>
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html#about">About us</a></li>
+                    <li><a href="catalog.html" class="active">Catalog</a></li>
+                    <li><a href="index.html#how-it-works">How it works?</a></li>
+                    <li><a href="index.html#contacts">Contacts</a></li>
+                </ul>
+
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram">
+                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16.2847 2.5C17.691 2.50375 18.4047 2.51125 19.021 2.52875L19.2635 2.5375C19.5435 2.5475 19.8197 2.56 20.1535 2.575C21.4835 2.6375 22.391 2.8475 23.1872 3.15625C24.0122 3.47375 24.7072 3.90375 25.4022 4.5975C26.0381 5.22217 26.53 5.97809 26.8435 6.8125C27.1522 7.60875 27.3622 8.51625 27.4247 9.8475C27.4397 10.18 27.4522 10.4563 27.4622 10.7375L27.4697 10.98C27.4885 11.595 27.496 12.3088 27.4985 13.715L27.4997 14.6475V16.285C27.5028 17.1968 27.4932 18.1085 27.471 19.02L27.4635 19.2625C27.4535 19.5437 27.441 19.82 27.426 20.1525C27.3635 21.4837 27.151 22.39 26.8435 23.1875C26.53 24.0219 26.0381 24.7778 25.4022 25.4025C24.7776 26.0384 24.0216 26.5302 23.1872 26.8438C22.391 27.1525 21.4835 27.3625 20.1535 27.425L19.2635 27.4625L19.021 27.47C18.4047 27.4875 17.691 27.4963 16.2847 27.4988L15.3522 27.5H13.716C12.8038 27.5032 11.8916 27.4936 10.9797 27.4712L10.7372 27.4638C10.4405 27.4525 10.1438 27.4396 9.84723 27.425C8.51723 27.3625 7.60973 27.1525 6.81223 26.8438C5.97827 26.5301 5.22279 26.0382 4.59848 25.4025C3.96217 24.778 3.46987 24.022 3.15598 23.1875C2.84723 22.3912 2.63723 21.4837 2.57473 20.1525L2.53723 19.2625L2.53098 19.02C2.50794 18.1085 2.49752 17.1968 2.49973 16.285V13.715C2.49627 12.8033 2.50544 11.8915 2.52723 10.98L2.53598 10.7375C2.54598 10.4563 2.55848 10.18 2.57348 9.8475C2.63598 8.51625 2.84598 7.61 3.15473 6.8125C3.46935 5.97775 3.96251 5.2218 4.59973 4.5975C5.22368 3.96194 5.97872 3.47009 6.81223 3.15625C7.60973 2.8475 8.51598 2.6375 9.84723 2.575C10.1797 2.56 10.4572 2.5475 10.7372 2.5375L10.9797 2.53C11.8912 2.50779 12.803 2.49821 13.7147 2.50125L16.2847 2.5ZM14.9997 8.75C13.3421 8.75 11.7524 9.40848 10.5803 10.5806C9.40821 11.7527 8.74973 13.3424 8.74973 15C8.74973 16.6576 9.40821 18.2473 10.5803 19.4194C11.7524 20.5915 13.3421 21.25 14.9997 21.25C16.6573 21.25 18.247 20.5915 19.4192 19.4194C20.5913 18.2473 21.2497 16.6576 21.2497 15C21.2497 13.3424 20.5913 11.7527 19.4192 10.5806C18.247 9.40848 16.6573 8.75 14.9997 8.75ZM14.9997 11.25C15.4922 11.2499 15.9798 11.3468 16.4348 11.5352C16.8898 11.7236 17.3033 11.9997 17.6516 12.3479C17.9998 12.6961 18.2761 13.1094 18.4647 13.5644C18.6532 14.0193 18.7503 14.5069 18.7504 14.9994C18.7504 15.4918 18.6535 15.9795 18.4651 16.4345C18.2768 16.8895 18.0006 17.3029 17.6525 17.6512C17.3043 17.9995 16.8909 18.2758 16.436 18.4643C15.9811 18.6528 15.4934 18.7499 15.001 18.75C14.0064 18.75 13.0526 18.3549 12.3493 17.6517C11.6461 16.9484 11.251 15.9946 11.251 15C11.251 14.0054 11.6461 13.0516 12.3493 12.3483C13.0526 11.6451 14.0064 11.25 15.001 11.25M21.5635 6.875C21.1491 6.875 20.7517 7.03962 20.4586 7.33265C20.1656 7.62567 20.001 8.0231 20.001 8.4375C20.001 8.8519 20.1656 9.24933 20.4586 9.54235C20.7517 9.83538 21.1491 10 21.5635 10C21.9779 10 22.3753 9.83538 22.6683 9.54235C22.9614 9.24933 23.126 8.8519 23.126 8.4375C23.126 8.0231 22.9614 7.62567 22.6683 7.33265C22.3753 7.03962 21.9779 6.875 21.5635 6.875Z" fill="#8A8A8A"/>
+                        </svg>
+                    </a>
+                    <a href="#" aria-label="Facebook">
+                        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M27.5 15C27.5 8.1 21.9 2.5 15 2.5C8.1 2.5 2.5 8.1 2.5 15C2.5 21.05 6.8 26.0875 12.5 27.25V18.75H10V15H12.5V11.875C12.5 9.4625 14.4625 7.5 16.875 7.5H20V11.25H17.5C16.8125 11.25 16.25 11.8125 16.25 12.5V15H20V18.75H16.25V27.4375C22.5625 26.8125 27.5 21.4875 27.5 15Z" fill="#8A8A8A"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <a href="#" class="cta-button">
+                    <svg width="24" height="15" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="cta-icon-img">
+                        <g clip-path="url(#clip0_1_3381)">
+                        <path d="M2.00329 9.67314L0 15H5.28649L7.28978 9.67314H2.00329Z" fill="#D42C00"/>
+                        <path d="M13.0723 15H16.1582C17.4827 15 18.6692 14.1746 19.1385 12.9265L20.362 9.67314H15.0756L13.0723 15Z" fill="#D42C00"/>
+                        <path d="M7.84153 1.62125e-05C6.51701 1.62125e-05 5.33055 0.825454 4.8612 2.0735L3.6377 5.32691H10.1739L6.5361 15H11.8226L15.4604 5.32691H21.9966L23.9999 1.62125e-05H7.84153Z" fill="#D42C00"/>
+                        </g>
+                        <defs>
+                        <clipPath id="clip0_1_3381">
+                        <rect width="24" height="15" fill="white"/>
+                        </clipPath>
+                        </defs>
+                    </svg>
+                    Get Tire Savings
+                </a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+        <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu">
+        <ul class="nav-links">
+            <li><a href="index.html#about">About us</a></li>
+            <li><a href="catalog.html" class="active">Catalog</a></li>
+            <li><a href="index.html#how-it-works">How it works?</a></li>
+            <li><a href="index.html#contacts">Contacts</a></li>
+        </ul>
+
+        <div class="social-icons">
+            <a href="#" aria-label="Instagram">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.2847 2.5C17.691 2.50375 18.4047 2.51125 19.021 2.52875L19.2635 2.5375C19.5435 2.5475 19.8197 2.56 20.1535 2.575C21.4835 2.6375 22.391 2.8475 23.1872 3.15625C24.0122 3.47375 24.7072 3.90375 25.4022 4.5975C26.0381 5.22217 26.53 5.97809 26.8435 6.8125C27.1522 7.60875 27.3622 8.51625 27.4247 9.8475C27.4397 10.18 27.4522 10.4563 27.4622 10.7375L27.4697 10.98C27.4885 11.595 27.496 12.3088 27.4985 13.715L27.4997 14.6475V16.285C27.5028 17.1968 27.4932 18.1085 27.471 19.02L27.4635 19.2625C27.4535 19.5437 27.441 19.82 27.426 20.1525C27.3635 21.4837 27.151 22.39 26.8435 23.1875C26.53 24.0219 26.0381 24.7778 25.4022 25.4025C24.7776 26.0384 24.0216 26.5302 23.1872 26.8438C22.391 27.1525 21.4835 27.3625 20.1535 27.425L19.2635 27.4625L19.021 27.47C18.4047 27.4875 17.691 27.4963 16.2847 27.4988L15.3522 27.5H13.716C12.8038 27.5032 11.8916 27.4936 10.9797 27.4712L10.7372 27.4638C10.4405 27.4525 10.1438 27.4396 9.84723 27.425C8.51723 27.3625 7.60973 27.1525 6.81223 26.8438C5.97827 26.5301 5.22279 26.0382 4.59848 25.4025C3.96217 24.778 3.46987 24.022 3.15598 23.1875C2.84723 22.3912 2.63723 21.4837 2.57473 20.1525L2.53723 19.2625L2.53098 19.02C2.50794 18.1085 2.49752 17.1968 2.49973 16.285V13.715C2.49627 12.8033 2.50544 11.8915 2.52723 10.98L2.53598 10.7375C2.54598 10.4563 2.55848 10.18 2.57348 9.8475C2.63598 8.51625 2.84598 7.61 3.15473 6.8125C3.46935 5.97775 3.96251 5.2218 4.59973 4.5975C5.22368 3.96194 5.97872 3.47009 6.81223 3.15625C7.60973 2.8475 8.51598 2.6375 9.84723 2.575C10.1797 2.56 10.4572 2.5475 10.7372 2.5375L10.9797 2.53C11.8912 2.50779 12.803 2.49821 13.7147 2.50125L16.2847 2.5ZM14.9997 8.75C13.3421 8.75 11.7524 9.40848 10.5803 10.5806C9.40821 11.7527 8.74973 13.3424 8.74973 15C8.74973 16.6576 9.40821 18.2473 10.5803 19.4194C11.7524 20.5915 13.3421 21.25 14.9997 21.25C16.6573 21.25 18.247 20.5915 19.4192 19.4194C20.5913 18.2473 21.2497 16.6576 21.2497 15C21.2497 13.3424 20.5913 11.7527 19.4192 10.5806C18.247 9.40848 16.6573 8.75 14.9997 8.75ZM14.9997 11.25C15.4922 11.2499 15.9798 11.3468 16.4348 11.5352C16.8898 11.7236 17.3033 11.9997 17.6516 12.3479C17.9998 12.6961 18.2761 13.1094 18.4647 13.5644C18.6532 14.0193 18.7503 14.5069 18.7504 14.9994C18.7504 15.4918 18.6535 15.9795 18.4651 16.4345C18.2768 16.8895 18.0006 17.3029 17.6525 17.6512C17.3043 17.9995 16.8909 18.2758 16.436 18.4643C15.9811 18.6528 15.4934 18.7499 15.001 18.75C14.0064 18.75 13.0526 18.3549 12.3493 17.6517C11.6461 16.9484 11.251 15.9946 11.251 15C11.251 14.0054 11.6461 13.0516 12.3493 12.3483C13.0526 11.6451 14.0064 11.25 15.001 11.25M21.5635 6.875C21.1491 6.875 20.7517 7.03962 20.4586 7.33265C20.1656 7.62567 20.001 8.0231 20.001 8.4375C20.001 8.8519 20.1656 9.24933 20.4586 9.54235C20.7517 9.83538 21.1491 10 21.5635 10C21.9779 10 22.3753 9.83538 22.6683 9.54235C22.9614 9.24933 23.126 8.8519 23.126 8.4375C23.126 8.0231 22.9614 7.62567 22.6683 7.33265C22.3753 7.03962 21.9779 6.875 21.5635 6.875Z" fill="#8A8A8A"/>
+                </svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M27.5 15C27.5 8.1 21.9 2.5 15 2.5C8.1 2.5 2.5 8.1 2.5 15C2.5 21.05 6.8 26.0875 12.5 27.25V18.75H10V15H12.5V11.875C12.5 9.4625 14.4625 7.5 16.875 7.5H20V11.25H17.5C16.8125 11.25 16.25 11.8125 16.25 12.5V15H20V18.75H16.25V27.4375C22.5625 26.8125 27.5 21.4875 27.5 15Z" fill="#8A8A8A"/>
+                </svg>
+            </a>
+        </div>
+
+        <a href="#" class="cta-button">
+            <svg width="24" height="15" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="cta-icon-img">
+                <g clip-path="url(#clip0_1_3381_mobile)">
+                <path d="M2.00329 9.67314L0 15H5.28649L7.28978 9.67314H2.00329Z" fill="#D42C00"/>
+                <path d="M13.0723 15H16.1582C17.4827 15 18.6692 14.1746 19.1385 12.9265L20.362 9.67314H15.0756L13.0723 15Z" fill="#D42C00"/>
+                <path d="M7.84153 1.62125e-05C6.51701 1.62125e-05 5.33055 0.825454 4.8612 2.0735L3.6377 5.32691H10.1739L6.5361 15H11.8226L15.4604 5.32691H21.9966L23.9999 1.62125e-05H7.84153Z" fill="#D42C00"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_1_3381_mobile">
+                <rect width="24" height="15" fill="white"/>
+                </clipPath>
+                </defs>
+            </svg>
+            Get Tire Savings
+        </a>
+    </div>
+    <!-- Breadcrumbs -->
+    <div class="breadcrumbs">
+        <div class="breadcrumbs-container">
+            <a href="index.html">Home</a>
+            <span>/</span>
+            <a href="catalog.html">All Tires</a>
+            <span>/</span>
+            <span>Hankook</span>
+        </div>
+    </div>
+
+    <!-- Mobile Filters Bar -->
+    <div class="mobile-filters-bar">
+        <button class="mobile-filter-btn" id="mobile-filters-btn">
+            <div class="mobile-btn-content">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 18H14V16H10V18ZM3 6V8H21V6H3ZM6 13H18V11H6V13Z" fill="currentColor"/>
+                </svg>
+                Filters
+            </div>
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+        <select id="mobile-sort-select" class="mobile-sort-select-styled">
+            <option value="default">Sort by</option>
+            <option value="price-low">Low to High Price</option>
+            <option value="price-high">High to Low Price</option>
+            <option value="discount">Discount %</option>
+            <option value="new">New Arrivals</option>
+        </select>
+    </div>
+
+    <!-- Active Filter Tags -->
+    <div class="active-filters-bar" id="active-filters-bar"></div>
+
+    <!-- Mobile Filters Overlay -->
+    <div class="mobile-filters-overlay" id="mobile-filters-overlay"></div>
+
+    <!-- Mobile Filters Sidebar -->
+    <div class="mobile-filters-sidebar" id="mobile-filters-sidebar">
+        <div class="mobile-filters-header">
+            <h3 class="mobile-filters-title">Filters</h3>
+            <button class="mobile-filters-close" id="mobile-filters-close">&#215;</button>
+        </div>
+        <div class="mobile-filters-content">
+            <!-- Tire Size Filter -->
+            <div class="filter-group">
+                <div class="filter-header collapsed">
+                    Tire Size
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="filter-content hidden"></div>
+            </div>
+            <!-- Tire Brand Filter -->
+            <div class="filter-group">
+                <div class="filter-header">
+                    Tire Brand
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="filter-content">
+                    <div class="filter-item">
+                        <input type="checkbox" id="mob-hankook" data-brand="hankook">
+                        <label for="mob-hankook">Hankook</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="mob-bridgestone" data-brand="bridgestone">
+                        <label for="mob-bridgestone">Bridgestone</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="mob-continental" data-brand="continental">
+                        <label for="mob-continental">Continental</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="mob-yokohama" data-brand="yokohama">
+                        <label for="mob-yokohama">Yokohama</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="mob-michelin" data-brand="michelin">
+                        <label for="mob-michelin">Michelin</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="mob-double-coin" data-brand="double-coin">
+                        <label for="mob-double-coin">Double Coin</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="mob-ralson" data-brand="ralson">
+                        <label for="mob-ralson">Ralson</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="checkbox" id="mob-retread" data-brand="retread">
+                        <label for="mob-retread">Retread by Love's</label>
+                    </div>
+                </div>
+            </div>
+            <!-- Category Filter -->
+            <div class="filter-group">
+                <div class="filter-header collapsed">
+                    Category
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="filter-content hidden"></div>
+            </div>
+            <!-- Tire Style Filter -->
+            <div class="filter-group">
+                <div class="filter-header collapsed">
+                    Tire Style
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="filter-content hidden"></div>
+            </div>
+            <!-- Pickup Location Filter -->
+            <div class="filter-group">
+                <div class="filter-header">
+                    Pickup Location
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="filter-content">
+                    <div class="filter-item">
+                        <input type="radio" name="mob-location" id="mob-all" data-location="all">
+                        <label for="mob-all">All Locations</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="radio" name="mob-location" id="mob-sacramento" data-location="sacramento">
+                        <label for="mob-sacramento">Sacramento Warehouse</label>
+                    </div>
+                    <div class="filter-item">
+                        <input type="radio" name="mob-location" id="mob-loves" data-location="loves">
+                        <label for="mob-loves">Love's & Speedco truck stops</label>
+                    </div>
+                </div>
+            </div>
+            <!-- Attributes Filter -->
+            <div class="filter-group">
+                <div class="filter-header collapsed">
+                    Attributes
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="filter-content hidden"></div>
+            </div>
+            <!-- Customer Rating Filter -->
+            <div class="filter-group">
+                <div class="filter-header collapsed">
+                    Customer Rating
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="filter-content hidden"></div>
+            </div>
+            <!-- Speed Index Filter -->
+            <div class="filter-group">
+                <div class="filter-header collapsed">
+                    Speed Index
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="filter-content hidden"></div>
+            </div>
+            <!-- Load Index Filter -->
+            <div class="filter-group">
+                <div class="filter-header collapsed">
+                    Load Index
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="filter-content hidden"></div>
+            </div>
+            <!-- Load Range Filter -->
+            <div class="filter-group">
+                <div class="filter-header collapsed">
+                    Load Range/Ply Rating
+                    <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <div class="filter-content hidden"></div>
+            </div>
+        </div>
+        <div class="mobile-filters-actions">
+            <button class="mobile-clear-filters" id="mobile-clear-all">Clear All</button>
+            <button class="mobile-apply-filters" id="mobile-apply-filters">Apply</button>
+        </div>
+    </div>
+    <!-- Catalog Section -->
+    <section class="catalog">
+        <div class="catalog-container">
+            <!-- Sidebar Filters -->
+            <aside class="sidebar">
+                <!-- Tire Size Filter -->
+                <div class="filter-group">
+                    <div class="filter-header collapsed">
+                        Tire Size
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="filter-content hidden">
+                        <!-- Filter content here -->
+                    </div>
+                </div>
+
+                <!-- Tire Brand Filter -->
+                <div class="filter-group">
+                    <div class="filter-header">
+                        Tire Brand
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="filter-content">
+                        <div class="filter-item">
+                            <input type="checkbox" id="hankook" data-brand="hankook">
+                            <label for="hankook">Hankook</label>
+                        </div>
+                        <div class="filter-item">
+                            <input type="checkbox" id="bridgestone" data-brand="bridgestone">
+                            <label for="bridgestone">Bridgestone</label>
+                        </div>
+                        <div class="filter-item">
+                            <input type="checkbox" id="continental" data-brand="continental">
+                            <label for="continental">Continental</label>
+                        </div>
+                        <div class="filter-item">
+                            <input type="checkbox" id="yokohama" data-brand="yokohama">
+                            <label for="yokohama">Yokohama</label>
+                        </div>
+                        <div class="filter-item">
+                            <input type="checkbox" id="michelin" data-brand="michelin">
+                            <label for="michelin">Michelin</label>
+                        </div>
+                        <div class="filter-item">
+                            <input type="checkbox" id="double-coin" data-brand="double-coin">
+                            <label for="double-coin">Double Coin</label>
+                        </div>
+                        <div class="filter-item">
+                            <input type="checkbox" id="ralson" data-brand="ralson">
+                            <label for="ralson">Ralson</label>
+                        </div>
+                        <div class="filter-item">
+                            <input type="checkbox" id="retread" data-brand="retread">
+                            <label for="retread">Retread by Love's</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="filter-group">
+                    <div class="filter-header collapsed">
+                        Category
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="filter-content hidden">
+                        <!-- Filter content here -->
+                    </div>
+                </div>
+
+                <!-- Tire Style Filter -->
+                <div class="filter-group">
+                    <div class="filter-header collapsed">
+                        Tire Style
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="filter-content hidden">
+                        <!-- Filter content here -->
+                    </div>
+                </div>
+
+                <!-- Pickup Location Filter -->
+                <div class="filter-group">
+                    <div class="filter-header">
+                        Pickup Location
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="filter-content">
+                        <div class="filter-item">
+                            <input type="radio" name="location" id="sacramento">
+                            <label for="sacramento">Sacramento Warehouse</label>
+                        </div>
+                        <div class="filter-item">
+                            <input type="radio" name="location" id="loves">
+                            <label for="loves">Love's & Speedco truck stops</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Attributes Filter -->
+                <div class="filter-group">
+                    <div class="filter-header collapsed">
+                        Attributes
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="filter-content hidden">
+                        <!-- Filter content here -->
+                    </div>
+                </div>
+
+                <!-- Customer Rating Filter -->
+                <div class="filter-group">
+                    <div class="filter-header collapsed">
+                        Customer Rating
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="filter-content hidden">
+                        <!-- Filter content here -->
+                    </div>
+                </div>
+
+                <!-- Speed Index Filter -->
+                <div class="filter-group">
+                    <div class="filter-header collapsed">
+                        Speed Index
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="filter-content hidden">
+                        <!-- Filter content here -->
+                    </div>
+                </div>
+
+                <!-- Load Index Filter -->
+                <div class="filter-group">
+                    <div class="filter-header collapsed">
+                        Load Index
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="filter-content hidden">
+                        <!-- Filter content here -->
+                    </div>
+                </div>
+
+                <!-- Load Range Filter -->
+                <div class="filter-group">
+                    <div class="filter-header collapsed">
+                        Load Range/Ply Rating
+                        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M4 6L8 10L12 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="filter-content hidden">
+                        <!-- Filter content here -->
+                    </div>
+                </div>
+
+                <!-- DOT Block -->
+                <div class="dot-block">
+                    <p class="dot-block-text">Present your DOT and receive automatic discounts at</p>
+                    <div class="dot-logos">
+                        <img src="loves.png" alt="Love's">
+                        <img src="speedco.png" alt="Speedco">
+                    </div>
+                    <input type="text" class="dot-input" placeholder="Company DOT">
+                    <button class="dot-submit">Submit DOT</button>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="catalog-main">
+                <!-- Catalog Header -->
+                <div class="catalog-header">
+                    <span class="clear-filters">Clear all filters</span>
+                    <span class="results-count" style="font-size: 14px; color: #4D4D4D; font-weight: 500;">Showing <strong id="product-count">9</strong> products</span>
+                    <div class="sort-by-wrapper">
+                        <label for="sort-select" class="sort-by-label">Sort by</label>
+                        <select id="sort-select" class="sort-select">
+                            <option value="default">Default</option>
+                            <option value="price-low">Low to High Price</option>
+                            <option value="price-high">High to Low Price</option>
+                            <option value="discount">Discount %</option>
+                            <option value="new">New</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="product-grid">
+                    <!-- Product 1 -->
+                    <div class="tire-card" data-brand="hankook" data-location="sacramento" data-tags="long-haul steer-all m+s s3pmsf" data-price="485" data-discount="40" data-badge="best">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Hankook Smart Flex DL15+">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$485.00</span>
+                                <span class="tire-old-price">$795.00 retail price</span>
+                                <span class="tire-discount">-40%</span>
+                            </div>
+                            <h3 class="tire-name">Hankook Smart Flex DL15+</h3>
+                            <p class="tire-size">Different Sizes</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Long Haul</span>
+                                <span class="tire-tag">Steer(All)</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="tire-card" data-brand="bridgestone" data-location="sacramento" data-tags="mixed-service drive m+s s3pmsf" data-price="375" data-discount="46" data-badge="new">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-blue">NEW</span>
+                            <img src="tire-product.png" alt="Bridgestone R238">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$375.00</span>
+                                <span class="tire-old-price">$700.00 retail price</span>
+                                <span class="tire-discount">-46%</span>
+                            </div>
+                            <h3 class="tire-name">Bridgestone R238</h3>
+                            <p class="tire-size">295/75R22.5</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Mixed Service</span>
+                                <span class="tire-tag">Drive</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="tire-card" data-brand="goodyear" data-location="loves" data-tags="trailer all-position m+s s3pmsf" data-price="320" data-discount="47" data-badge="best">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Goodyear Endurance">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$320.00</span>
+                                <span class="tire-old-price">$600.00 retail price</span>
+                                <span class="tire-discount">-47%</span>
+                            </div>
+                            <h3 class="tire-name">Goodyear Endurance</h3>
+                            <p class="tire-size">Different Sizes</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Trailer</span>
+                                <span class="tire-tag">All Position</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="tire-card" data-brand="michelin" data-location="sacramento" data-tags="regional drive m+s s3pmsf" data-price="550" data-discount="39" data-badge="best">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Michelin XDA-5">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$550.00</span>
+                                <span class="tire-old-price">$900.00 retail price</span>
+                                <span class="tire-discount">-39%</span>
+                            </div>
+                            <h3 class="tire-name">Michelin XDA-5</h3>
+                            <p class="tire-size">Different Sizes</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Regional</span>
+                                <span class="tire-tag">Drive</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 5 -->
+                    <div class="tire-card" data-brand="michelin" data-location="loves" data-tags="regional drive m+s s3pmsf" data-price="550" data-discount="39" data-badge="best">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Michelin XDA-5">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$550.00</span>
+                                <span class="tire-old-price">$900.00 retail price</span>
+                                <span class="tire-discount">-39%</span>
+                            </div>
+                            <h3 class="tire-name">Michelin XDA-5</h3>
+                            <p class="tire-size">Different Sizes</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Regional</span>
+                                <span class="tire-tag">Drive</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 6 -->
+                    <div class="tire-card" data-brand="michelin" data-location="sacramento" data-tags="regional drive m+s s3pmsf" data-price="550" data-discount="39" data-badge="best">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Michelin XDA-5">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$550.00</span>
+                                <span class="tire-old-price">$900.00 retail price</span>
+                                <span class="tire-discount">-39%</span>
+                            </div>
+                            <h3 class="tire-name">Michelin XDA-5</h3>
+                            <p class="tire-size">11R22.5</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Regional</span>
+                                <span class="tire-tag">Drive</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 7 -->
+                    <div class="tire-card" data-brand="hankook" data-location="sacramento" data-tags="regional drive m+s s3pmsf" data-price="450" data-discount="35" data-badge="best">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Hankook Smart Flex">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$450.00</span>
+                                <span class="tire-old-price">$700.00 retail price</span>
+                                <span class="tire-discount">-35%</span>
+                            </div>
+                            <h3 class="tire-name">Hankook Smart Flex</h3>
+                            <p class="tire-size">Different Sizes</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Regional</span>
+                                <span class="tire-tag">Drive</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 8 -->
+                    <div class="tire-card" data-brand="continental" data-location="loves" data-tags="regional drive m+s s3pmsf" data-price="520" data-discount="38" data-badge="new">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-blue">NEW</span>
+                            <img src="tire-product.png" alt="Continental HDR">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$520.00</span>
+                                <span class="tire-old-price">$850.00 retail price</span>
+                                <span class="tire-discount">-38%</span>
+                            </div>
+                            <h3 class="tire-name">Continental HDR</h3>
+                            <p class="tire-size">Different Sizes</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Regional</span>
+                                <span class="tire-tag">Drive</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 9 -->
+                    <div class="tire-card" data-brand="yokohama" data-location="sacramento" data-tags="regional drive m+s s3pmsf" data-price="480" data-discount="42" data-badge="best">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Yokohama RY023">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$480.00</span>
+                                <span class="tire-old-price">$830.00 retail price</span>
+                                <span class="tire-discount">-42%</span>
+                            </div>
+                            <h3 class="tire-name">Yokohama RY023</h3>
+                            <p class="tire-size">Different Sizes</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Regional</span>
+                                <span class="tire-tag">Drive</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <!-- Product 1 -->
+                    <div class="tire-card" data-brand="hankook" data-location="sacramento" data-tags="long-haul steer-all m+s s3pmsf" data-price="485">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Hankook Smart Flex DL15+">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$485.00</span>
+                                <span class="tire-old-price">$795.00 retail price</span>
+                                <span class="tire-discount">-40%</span>
+                            </div>
+                            <h3 class="tire-name">Hankook Smart Flex DL15+</h3>
+                            <p class="tire-size">Different Sizes</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Long Haul</span>
+                                <span class="tire-tag">Steer(All)</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="tire-card" data-brand="bridgestone" data-location="sacramento" data-tags="mixed-service drive m+s s3pmsf" data-price="375">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-blue">NEW</span>
+                            <img src="tire-product.png" alt="Bridgestone R238">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$375.00</span>
+                                <span class="tire-old-price">$700.00 retail price</span>
+                                <span class="tire-discount">-46%</span>
+                            </div>
+                            <h3 class="tire-name">Bridgestone R238</h3>
+                            <p class="tire-size">295/75R22.5</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Mixed Service</span>
+                                <span class="tire-tag">Drive</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="tire-card" data-brand="goodyear" data-location="loves" data-tags="trailer all-position m+s s3pmsf" data-price="320">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Goodyear Endurance">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$320.00</span>
+                                <span class="tire-old-price">$600.00 retail price</span>
+                                <span class="tire-discount">-47%</span>
+                            </div>
+                            <h3 class="tire-name">Goodyear Endurance</h3>
+                            <p class="tire-size">Different Sizes</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Trailer</span>
+                                <span class="tire-tag">All Position</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="tire-card" data-brand="michelin" data-location="sacramento" data-tags="regional drive m+s s3pmsf" data-price="550">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Michelin XDA-5">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$550.00</span>
+                                <span class="tire-old-price">$900.00 retail price</span>
+                                <span class="tire-discount">-39%</span>
+                            </div>
+                            <h3 class="tire-name">Michelin XDA-5</h3>
+                            <p class="tire-size">Different Sizes</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Regional</span>
+                                <span class="tire-tag">Drive</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 5 -->
+                    <div class="tire-card" data-brand="michelin" data-location="loves" data-tags="regional drive m+s s3pmsf" data-price="550">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Michelin XDA-5">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$550.00</span>
+                                <span class="tire-old-price">$900.00 retail price</span>
+                                <span class="tire-discount">-39%</span>
+                            </div>
+                            <h3 class="tire-name">Michelin XDA-5</h3>
+                            <p class="tire-size">Different Sizes</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Regional</span>
+                                <span class="tire-tag">Drive</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 6 -->
+                    <div class="tire-card" data-brand="michelin" data-location="sacramento" data-tags="regional drive m+s s3pmsf" data-price="550">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Michelin XDA-5">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$550.00</span>
+                                <span class="tire-old-price">$900.00 retail price</span>
+                                <span class="tire-discount">-39%</span>
+                            </div>
+                            <h3 class="tire-name">Michelin XDA-5</h3>
+                            <p class="tire-size">11R22.5</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Regional</span>
+                                <span class="tire-tag">Drive</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 7 -->
+                    <div class="tire-card" data-brand="hankook" data-location="sacramento" data-tags="regional drive m+s s3pmsf" data-price="550">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Hankook Smart Flex">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$550.00</span>
+                                <span class="tire-old-price">$900.00 retail price</span>
+                                <span class="tire-discount">-39%</span>
+                            </div>
+                            <h3 class="tire-name">Hankook Smart Flex</h3>
+                            <p class="tire-size">Different Sizes</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Regional</span>
+                                <span class="tire-tag">Drive</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 8 -->
+                    <div class="tire-card" data-brand="continental" data-location="loves" data-tags="regional drive m+s s3pmsf" data-price="550">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Continental HDR">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$550.00</span>
+                                <span class="tire-old-price">$900.00 retail price</span>
+                                <span class="tire-discount">-39%</span>
+                            </div>
+                            <h3 class="tire-name">Continental HDR</h3>
+                            <p class="tire-size">Different Sizes</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Regional</span>
+                                <span class="tire-tag">Drive</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product 9 -->
+                    <div class="tire-card" data-brand="yokohama" data-location="sacramento" data-tags="regional drive m+s s3pmsf" data-price="550">
+                        <div class="tire-image">
+                            <span class="tire-badge tire-badge-red">Best %</span>
+                            <img src="tire-product.png" alt="Yokohama RY023">
+                        </div>
+                        <div class="tire-info">
+                            <div class="tire-pricing">
+                                <span class="tire-price">$550.00</span>
+                                <span class="tire-old-price">$900.00 retail price</span>
+                                <span class="tire-discount">-39%</span>
+                            </div>
+                            <h3 class="tire-name">Yokohama RY023</h3>
+                            <p class="tire-size">Different Sizes</p>
+                            <div class="tire-tags">
+                                <span class="tire-tag">Regional</span>
+                                <span class="tire-tag">Drive</span>
+                                <span class="tire-tag">M+S</span>
+                                <span class="tire-tag">S3PMSF</span>
+                            </div>
+                            <div class="tire-actions">
+                                <button class="tire-btn tire-btn-primary">Buy in Sacramento</button>
+                                <button class="tire-btn tire-btn-secondary">Buy at Love's</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <a href="#" class="prev">‹ Prev</a>
+                    <span class="active">1</span>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">4</a>
+                    <a href="#">5</a>
+                    <a href="#">6</a>
+                    <a href="#" class="next">Next ›</a>
+                </div>
+            </main>
+        </div>
+    </section>
+
+    <!-- How it works / Pickup & Delivery Section -->
+    <section class="pickup-delivery" id="how-it-works">
+        <div class="pickup-delivery-container">
+            <div class="pickup-content">
+                <div class="section-badge"><span class="badge-bullet">•</span> How it works? <span class="badge-bullet">•</span></div>
+                
+                <h2 class="section-title">Flexible Tire <span class="highlight">Pickup & Delivery</span> Options</h2>
+                
+                <p class="pickup-text">
+                    Get discounted tires your way — pick up from our <strong>Sacramento</strong> warehouse, enjoy free local delivery on orders over $1,000, or collect at any Love's & Speedco nationwide.
+                </p>
+                
+                <a href="#" class="call-button">
+                    <svg width="24" height="15" viewBox="0 0 24 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_call_catalog)">
+                        <path d="M2.00329 9.67314L0 15H5.28649L7.28978 9.67314H2.00329Z" fill="white"/>
+                        <path d="M13.0723 15H16.1582C17.4827 15 18.6692 14.1746 19.1385 12.9265L20.362 9.67314H15.0756L13.0723 15Z" fill="white"/>
+                        <path d="M7.84153 1.62125e-05C6.51701 1.62125e-05 5.33055 0.825454 4.8612 2.0735L3.6377 5.32691H10.1739L6.5361 15H11.8226L15.4604 5.32691H21.9966L23.9999 1.62125e-05H7.84153Z" fill="white"/>
+                        </g>
+                        <defs>
+                        <clipPath id="clip0_call_catalog">
+                        <rect width="24" height="15" fill="white"/>
+                        </clipPath>
+                        </defs>
+                    </svg>
+                    Call us to know more
+                </a>
+            </div>
+            
+            <div class="pickup-video">
+                <video width="710" height="420" autoplay loop muted playsinline>
+                    <source src="delivery-van.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <!-- Footer Top -->
+            <div class="footer-top">
+                <p class="footer-tagline">Our team is ready to support your goals.</p>
+                <a href="/cdn-cgi/l/email-protection#e38a8d858ca38a858f86869780829186cd808c8e" class="footer-email-large"><span class="__cf_email__" data-cfemail="10797e767f5079767c757564737162753e737f7d">[email&#160;protected]</span></a>
+            </div>
+
+            <!-- Footer Main -->
+            <div class="footer-main">
+                <!-- Logo Column -->
+                <div class="footer-column footer-logo-col">
+                    <a href="index.html" class="footer-logo">
+                        <img src="iTrucking_FleetCare.svg" alt="iTRUCKING Fleet Care">
+                    </a>
+                </div>
+
+                <!-- Contact Column -->
+                <div class="footer-column footer-contact-col">
+                    <a href="/cdn-cgi/l/email-protection#10797e767f5079767c757564737162753e737f7d" class="footer-contact-item">
+                        <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M18 0H2C0.9 0 0.01 0.9 0.01 2L0 14C0 15.1 0.9 16 2 16H18C19.1 16 20 15.1 20 14V2C20 0.9 19.1 0 18 0ZM18 4L10 9L2 4V2L10 7L18 2V4Z" fill="#D42C00"/>
+                        </svg>
+                        <span class="__cf_email__" data-cfemail="b9d0d7dfd6f9d0dfd5dcdccddad8cbdc97dad6d4">[email&#160;protected]</span>
+                    </a>
+                    <a href="tel:+19162340257" class="footer-contact-item">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M3.62 7.79C5.06 10.62 7.38 12.93 10.21 14.38L12.41 12.18C12.68 11.91 13.08 11.82 13.43 11.94C14.55 12.31 15.76 12.51 17 12.51C17.55 12.51 18 12.96 18 13.51V17C18 17.55 17.55 18 17 18C7.61 18 0 10.39 0 1C0 0.45 0.45 0 1 0H4.5C5.05 0 5.5 0.45 5.5 1C5.5 2.25 5.7 3.45 6.07 4.57C6.18 4.92 6.1 5.31 5.82 5.59L3.62 7.79Z" fill="#D42C00"/>
+                        </svg>
+                        (916) 234-0257
+                    </a>
+                    <a href="https://maps.google.com/?q=1229+Pleasant+Grove+Blvd,+Roseville,+CA+95678" target="_blank" class="footer-contact-item">
+                        <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M8 0C3.58 0 0 3.58 0 8C0 14 8 20 8 20C8 20 16 14 16 8C16 3.58 12.42 0 8 0ZM8 10.5C6.62 10.5 5.5 9.38 5.5 8C5.5 6.62 6.62 5.5 8 5.5C9.38 5.5 10.5 6.62 10.5 8C10.5 9.38 9.38 10.5 8 10.5Z" fill="#D42C00"/>
+                        </svg>
+                        1229 Pleasant Grove Blvd, Roseville, CA 95678
+                    </a>
+                    <div class="footer-social">
+                        <a href="https://instagram.com" target="_blank" class="footer-social-btn footer-social-instagram">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" fill="#D42C00"/>
+                            </svg>
+                            Instagram
+                        </a>
+                        <a href="https://facebook.com" target="_blank" class="footer-social-btn footer-social-facebook">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#1877F2"/>
+                            </svg>
+                            Facebook
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Catalog Column -->
+                <div class="footer-column footer-catalog-col">
+                    <h3 class="footer-column-title">Catalog</h3>
+                    <nav class="footer-nav">
+                        <a href="#">Hankook</a>
+                        <a href="#">Bridgestone</a>
+                        <a href="#">Continental</a>
+                        <a href="#">Yokohama</a>
+                        <a href="#">Michelin</a>
+                        <a href="#">Double Coin</a>
+                        <a href="#">Ralson</a>
+                        <a href="#">Retread</a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p class="footer-copyright">iTrucking Fleet Care Inc. All Rights Reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Set mobile menu position based on header height
+        function adjustMobileMenuPosition() {
+            const header = document.querySelector('header');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            if (header && mobileMenu) {
+                const headerHeight = header.offsetHeight;
+                mobileMenu.style.top = headerHeight + 'px';
+                mobileMenu.style.height = `calc(100vh - ${headerHeight}px)`;
+            }
+        }
+
+        // Adjust on load and resize
+        adjustMobileMenuPosition();
+        window.addEventListener('resize', adjustMobileMenuPosition);
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu a');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenuBtn.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        });
+
+        // Close mobile menu when clicking on a link
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuBtn.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // Filter toggle functionality (desktop sidebar only)
+        const filterHeaders = document.querySelectorAll('.sidebar .filter-header');
+        filterHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                header.classList.toggle('collapsed');
+                const content = header.nextElementSibling;
+                content.classList.toggle('hidden');
+            });
+        });
+
+        // Real-time filtering functionality
+        const filterProducts = () => {
+            const isMobile = window.innerWidth <= 768;
+
+            // Get selected brands
+            const selectedBrands = [];
+            const brandSelector = isMobile
+                ? '.mobile-filters-content input[type="checkbox"]:checked'
+                : '.sidebar input[type="checkbox"]:checked';
+            document.querySelectorAll(brandSelector).forEach(cb => {
+                const brand = cb.getAttribute('data-brand') || cb.id;
+                selectedBrands.push(brand);
+            });
+
+            // Get selected location
+            let selectedLocation = 'all';
+            if (isMobile) {
+                const mobRadio = document.querySelector('input[name="mob-location"]:checked');
+                selectedLocation = mobRadio ? (mobRadio.getAttribute('data-location') || mobRadio.id) : 'all';
+            } else {
+                const deskRadio = document.querySelector('input[name="location"]:checked');
+                selectedLocation = deskRadio ? deskRadio.id : 'all';
+            }
+
+            // Get all product cards
+            const productCards = Array.from(document.querySelectorAll('.tire-card'));
+            let visibleCount = 0;
+
+            // First, filter products
+            productCards.forEach(card => {
+                const cardBrand = card.getAttribute('data-brand');
+                const cardLocation = card.getAttribute('data-location');
+
+                let showCard = true;
+
+                // Check brand filter
+                if (selectedBrands.length > 0 && !selectedBrands.includes(cardBrand)) {
+                    showCard = false;
+                }
+
+                // Check location filter
+                if (selectedLocation !== 'all') {
+                    if (selectedLocation === 'sacramento' && cardLocation !== 'sacramento') {
+                        showCard = false;
+                    } else if (selectedLocation === 'loves' && cardLocation !== 'loves') {
+                        showCard = false;
+                    }
+                }
+
+                // Show or hide card
+                if (showCard) {
+                    card.style.display = 'flex';
+                    card.dataset.visible = 'true';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                    card.dataset.visible = 'false';
+                }
+            });
+
+            // Update product count
+            const countElement = document.getElementById('product-count');
+            if (countElement) {
+                countElement.textContent = visibleCount;
+            }
+
+            // Apply sorting after filtering
+            sortProducts();
+
+            console.log(`Showing ${visibleCount} products`);
+        };
+
+        // Sorting functionality
+        const sortProducts = () => {
+            const sortSelect = document.getElementById('sort-select');
+            const sortValue = sortSelect?.value || 'default';
+            const productGrid = document.querySelector('.product-grid');
+            
+            if (!productGrid) return;
+
+            // Get only visible cards
+            const visibleCards = Array.from(document.querySelectorAll('.tire-card[data-visible="true"]'));
+            
+            // Sort based on selected option
+            visibleCards.sort((a, b) => {
+                switch(sortValue) {
+                    case 'price-low':
+                        return parseInt(a.getAttribute('data-price')) - parseInt(b.getAttribute('data-price'));
+                    
+                    case 'price-high':
+                        return parseInt(b.getAttribute('data-price')) - parseInt(a.getAttribute('data-price'));
+                    
+                    case 'discount':
+                        return parseInt(b.getAttribute('data-discount')) - parseInt(a.getAttribute('data-discount'));
+                    
+                    case 'new':
+                        // NEW badges first, then BEST
+                        const aBadge = a.getAttribute('data-badge');
+                        const bBadge = b.getAttribute('data-badge');
+                        if (aBadge === 'new' && bBadge !== 'new') return -1;
+                        if (aBadge !== 'new' && bBadge === 'new') return 1;
+                        return 0;
+                    
+                    default:
+                        return 0; // Keep original order
+                }
+            });
+
+            // Reorder cards in the grid
+            visibleCards.forEach(card => {
+                productGrid.appendChild(card);
+            });
+        };
+
+        // Add event listeners to all checkboxes and radio buttons
+        const allCheckboxes = document.querySelectorAll('.filter-item input[type="checkbox"]');
+        allCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', filterProducts);
+        });
+
+        const allRadios = document.querySelectorAll('.filter-item input[type="radio"]');
+        allRadios.forEach(radio => {
+            radio.addEventListener('change', filterProducts);
+        });
+
+        // Add event listener for sort select
+        const sortSelect = document.getElementById('sort-select');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', sortProducts);
+        }
+
+        // Clear all filters functionality
+        const clearFiltersBtn = document.querySelector('.clear-filters');
+        if (clearFiltersBtn) {
+            clearFiltersBtn.addEventListener('click', () => {
+                // Uncheck all checkboxes
+                allCheckboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+
+                // Uncheck all location radios
+                document.querySelectorAll('input[name="location"]').forEach(r => r.checked = false);
+
+                // Reset sort to default
+                const sortSelect = document.getElementById('sort-select');
+                if (sortSelect) {
+                    sortSelect.value = 'default';
+                }
+
+                // Show all products
+                filterProducts();
+            });
+        }
+
+        // Initial filter application
+        filterProducts();
+
+        // Mobile filters functionality
+        const mobileFiltersBtn = document.getElementById('mobile-filters-btn');
+        const mobileFiltersSidebar = document.getElementById('mobile-filters-sidebar');
+        const mobileFiltersOverlay = document.getElementById('mobile-filters-overlay');
+        const mobileFiltersClose = document.getElementById('mobile-filters-close');
+        const mobileApplyFilters = document.getElementById('mobile-apply-filters');
+        const mobileClearAll = document.getElementById('mobile-clear-all');
+
+        // Active filter tags
+        const updateActiveFilterTags = () => {
+            const bar = document.getElementById('active-filters-bar');
+            if (!bar) return;
+
+            const tags = [];
+
+            // Collect checked brand checkboxes
+            document.querySelectorAll('.mobile-filters-content input[type="checkbox"]:checked').forEach(cb => {
+                const label = document.querySelector(`label[for="${cb.id}"]`);
+                const labelText = label ? label.textContent.trim() : cb.id;
+                tags.push({ id: cb.id, type: 'checkbox', label: labelText });
+            });
+
+            // Collect non-default location
+            const locRadio = document.querySelector('input[name="mob-location"]:checked');
+            if (locRadio && locRadio.getAttribute('data-location') !== 'all') {
+                const label = document.querySelector(`label[for="${locRadio.id}"]`);
+                const labelText = label ? label.textContent.trim() : locRadio.id;
+                tags.push({ id: locRadio.id, type: 'radio', name: 'mob-location', label: labelText });
+            }
+
+            if (tags.length === 0) {
+                bar.classList.remove('has-filters');
+                bar.innerHTML = '';
+                return;
+            }
+
+            bar.classList.add('has-filters');
+            bar.innerHTML = tags.map(tag => `
+                <span class="active-filter-tag" data-filter-id="${tag.id}" data-filter-type="${tag.type}" data-filter-name="${tag.name || ''}">
+                    ${tag.label}
+                    <button aria-label="Remove ${tag.label}">&#215;</button>
+                </span>
+            `).join('') + `<button class="clear-all-tags" id="clear-all-tags-btn">Clear all</button>`;
+
+            bar.querySelector('#clear-all-tags-btn').addEventListener('click', () => {
+                document.querySelectorAll('.mobile-filters-content input[type="checkbox"]').forEach(cb => { cb.checked = false; });
+                document.querySelectorAll('input[name="mob-location"]').forEach(r => r.checked = false);
+                filterProducts();
+                updateActiveFilterTags();
+            });
+
+            bar.querySelectorAll('.active-filter-tag button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const tag = btn.closest('.active-filter-tag');
+                    const filterId = tag.getAttribute('data-filter-id');
+                    const filterType = tag.getAttribute('data-filter-type');
+
+                    if (filterType === 'checkbox') {
+                        const cb = document.getElementById(filterId);
+                        if (cb) cb.checked = false;
+                    } else if (filterType === 'radio') {
+                        // Reset to "all" (mob-all)
+                        const allRadio = document.querySelector('input[name="mob-location"][data-location="all"]');
+                        if (allRadio) allRadio.checked = true;
+                    }
+
+                    filterProducts();
+                    updateActiveFilterTags();
+                });
+            });
+        };
+
+        // Attach listeners to mobile filter inputs
+        document.querySelectorAll('.mobile-filters-content input').forEach(input => {
+            input.addEventListener('change', () => {
+                filterProducts();
+                updateActiveFilterTags();
+            });
+        });
+
+        // Filter header toggle in mobile sidebar
+        document.querySelectorAll('.mobile-filters-content .filter-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.classList.toggle('collapsed');
+                header.nextElementSibling.classList.toggle('hidden');
+            });
+        });
+
+        const openMobileFilters = () => {
+            mobileFiltersSidebar.classList.add('active');
+            mobileFiltersOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeMobileFilters = () => {
+            mobileFiltersSidebar.classList.remove('active');
+            mobileFiltersOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        if (mobileFiltersBtn) mobileFiltersBtn.addEventListener('click', openMobileFilters);
+        if (mobileFiltersClose) mobileFiltersClose.addEventListener('click', closeMobileFilters);
+        if (mobileFiltersOverlay) mobileFiltersOverlay.addEventListener('click', closeMobileFilters);
+        if (mobileApplyFilters) mobileApplyFilters.addEventListener('click', closeMobileFilters);
+
+        // Clear all mobile filters
+        if (mobileClearAll) {
+            mobileClearAll.addEventListener('click', () => {
+                document.querySelectorAll('.mobile-filters-content input[type="checkbox"]').forEach(cb => {
+                    cb.checked = false;
+                });
+                document.querySelectorAll('input[name="mob-location"]').forEach(r => r.checked = false);
+                filterProducts();
+                updateActiveFilterTags();
+            });
+        }
+
+        // Mobile sort select
+        const mobileSortSelect = document.getElementById('mobile-sort-select');
+        if (mobileSortSelect) {
+            mobileSortSelect.addEventListener('change', () => {
+                // Sync with desktop sort select
+                const desktopSort = document.getElementById('sort-select');
+                if (desktopSort) desktopSort.value = mobileSortSelect.value;
+                sortProducts();
+            });
+        }
+
+        // Sync desktop sort → mobile sort on change
+        const desktopSortSelect = document.getElementById('sort-select');
+        if (desktopSortSelect) {
+            desktopSortSelect.addEventListener('change', () => {
+                if (mobileSortSelect) mobileSortSelect.value = desktopSortSelect.value;
+            });
+        }
+
+    </script>
+</body>
+</html>
