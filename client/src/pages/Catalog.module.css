@@ -62,9 +62,32 @@
 
 .mobileBtnClear:hover { background: #b02200; }
 
-.mobileSortSelect {
+.mobileSortWrap {
   flex: 1;
-  padding: 10px 14px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.mobileSortIcon {
+  position: absolute;
+  left: 12px;
+  color: #4D4D4D;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.mobileSortArrow {
+  position: absolute;
+  right: 12px;
+  color: #4D4D4D;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.mobileSortSelect {
+  width: 100%;
+  padding: 10px 32px 10px 34px;
   border: 1px solid #E2E2E2;
   border-radius: 6px;
   font-size: 14px;
@@ -548,7 +571,7 @@
   .catalogContainer { grid-template-columns: 1fr; }
   .sidebarWrap { display: none; }
   .productGrid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .clearFiltersLink { display: none; }
+  .catalogHeader { display: none; }
 }
 
 @media (max-width: 480px) {

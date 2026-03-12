@@ -450,15 +450,16 @@ export default function Catalog() {
               </span>
             )}
           </button>
-          <select className={styles.mobileSortSelect} value={sortBy} onChange={e => setSortBy(e.target.value)}>
-            <option value="default">Sort by</option>
-            <option value="price-low">Price: Low → High</option>
-            <option value="price-high">Price: High → Low</option>
-            <option value="discount">Discount %</option>
-          </select>
-        </div>
-        <div className={styles.mobileResultsCount}>
-          <strong>{filtered.length}</strong> product{filtered.length !== 1 ? 's' : ''} found
+          <div className={styles.mobileSortWrap}>
+            <svg className={styles.mobileSortIcon} width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M7 12h10M11 18h2" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+            <select className={styles.mobileSortSelect} value={sortBy} onChange={e => setSortBy(e.target.value)}>
+              <option value="default">Sort by</option>
+              <option value="price-low">Price: Low → High</option>
+              <option value="price-high">Price: High → Low</option>
+              <option value="discount">Discount %</option>
+            </select>
+            <svg className={styles.mobileSortArrow} width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+          </div>
         </div>
       </div>
 
