@@ -3,6 +3,7 @@ import { useCart } from '../hooks/useCart'
 import { formatPrice } from '../utils/format'
 import { ROUTES } from '../constants/routes'
 import styles from './Cart.module.css'
+import { assetUrl } from '../utils/assetUrl'
 
 const TrashIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -57,7 +58,7 @@ export default function Cart() {
             {items.map((item) => (
               <div key={item.key} className={styles.item}>
                 <div className={styles.itemImage}>
-                  <img src={item.image || '/images/tire-product.png'} alt={item.name} />
+                  <img src={assetUrl(item.image || '/images/tires/tire-product.png')} alt={item.name} />
                 </div>
 
                 <div className={styles.itemInfo}>
