@@ -64,6 +64,11 @@
   display: inline-block;
 }
 
+.logoCol svg {
+  height: 40px;
+  width: auto;
+}
+
 /* Contact column */
 .contactCol {
   gap: 0;
