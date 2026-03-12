@@ -256,7 +256,7 @@ export default function Home() {
           <div className={styles.brandsLogos}>
             {BRANDS.map((b, i) => (
               <Reveal key={b.name} delay={i * 80} direction="scale" as="span">
-                <img src={b.src} alt={b.name} className={styles.brandLogo} />
+                <img src={assetUrl(b.src)} alt={b.name} className={styles.brandLogo} />
               </Reveal>
             ))}
           </div>
