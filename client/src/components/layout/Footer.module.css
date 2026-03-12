@@ -221,6 +221,9 @@
   .logoCol {
     grid-column: auto;
   }
+  .logoCol svg {
+    height: 28px;
+  }
   .bottom {
     flex-direction: column;
     align-items: flex-start;
