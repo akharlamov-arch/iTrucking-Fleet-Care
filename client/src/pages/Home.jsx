@@ -6,6 +6,7 @@ import { useCart } from '../hooks/useCart'
 import { useCatalog } from '../hooks/useCatalog'
 import TireCard from '../components/common/TireCard'
 import Reveal from '../components/common/Reveal'
+import { assetUrl } from '../utils/assetUrl'
 import styles from './Home.module.css'
 
 // ── inline SVG helpers ────────────────────────────────────────────────────────
@@ -243,7 +244,7 @@ export default function Home() {
           </div>
 
           <div className={styles.heroImage}>
-            <img src="/images/Tire_site.png" alt="Truck Tire" className={styles.tireImg} />
+            <img src={assetUrl('/images/Tire_site.png')} alt="Truck Tire" className={styles.tireImg} />
           </div>
         </div>
       </section>
@@ -268,7 +269,7 @@ export default function Home() {
           <div className={styles.aboutContainer}>
             <div className={styles.aboutVideo}>
               <video autoPlay loop muted playsInline>
-                <source src="/images/truck-video.mp4" type="video/mp4" />
+                <source src={assetUrl('/images/truck-video.mp4')} type="video/mp4" />
               </video>
             </div>
 
@@ -287,8 +288,8 @@ export default function Home() {
                   <TruckIcon /> Explore catalog
                 </a>
                 <div className={styles.partnerLogos}>
-                  <img src="/images/partners/loves.png"   alt="Love's Travel Stops" className={styles.partnerLogo} />
-                  <img src="/images/partners/speedco.png" alt="Speedco"             className={styles.partnerLogo} />
+            <img src={assetUrl('/images/partners/loves.png')}   alt="Love's Travel Stops" className={styles.partnerLogo} />
+              <img src={assetUrl('/images/partners/speedco.png')} alt="Speedco"             className={styles.partnerLogo} />
                 </div>
               </div>
             </div>
@@ -354,7 +355,7 @@ export default function Home() {
 
             <div className={styles.pickupVideo}>
               <video autoPlay loop muted playsInline>
-                <source src="/images/delivery-van.mp4" type="video/mp4" />
+                <source src={assetUrl('/images/delivery-van.mp4')} type="video/mp4" />
               </video>
             </div>
           </div>

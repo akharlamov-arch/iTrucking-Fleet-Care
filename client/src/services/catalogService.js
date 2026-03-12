@@ -213,7 +213,7 @@ function rowToProduct(raw) {
     priceNum:    price,
     discountNum: discount,
     badge:       badge ? { text: badge, variant: r.badge_variant?.trim() || 'red' } : null,
-    image:       r.image?.trim()    || '/images/tire-product.png',
+    image:       r.image?.trim()    || '/images/tires/tire-product.png',
     size:        r.size?.trim()     || '',
     familyId:    r.family_id?.trim() || '',   // groups all sizes of the same model
     tags:        r.tags ? r.tags.split(',').map(t => t.trim()).filter(Boolean) : [],

@@ -6,6 +6,7 @@ import { useCart } from '../hooks/useCart'
 import { useCatalog } from '../hooks/useCatalog'
 import Breadcrumbs from '../components/common/Breadcrumbs'
 import TireCard from '../components/common/TireCard'
+import { assetUrl } from '../utils/assetUrl'
 import styles from './Catalog.module.css'
 
 // ── Static sample products ─────────────────────────────────────────────────
@@ -215,8 +216,8 @@ function SidebarContent({
       <div className={styles.dotBlock}>
         <p className={styles.dotText}>Present your DOT and receive automatic discounts at</p>
         <div className={styles.dotLogos}>
-          <img src="/images/partners/loves.png"   alt="Love's"   />
-          <img src="/images/partners/speedco.png" alt="Speedco"  />
+          <img src={assetUrl('/images/partners/loves.png')}   alt="Love's"   />
+          <img src={assetUrl('/images/partners/speedco.png')} alt="Speedco"  />
         </div>
         <input className={styles.dotInput} type="text" placeholder="Company DOT" />
         <button className={styles.dotSubmit}>Submit DOT</button>

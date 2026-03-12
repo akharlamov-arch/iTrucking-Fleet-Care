@@ -2,6 +2,7 @@
 // e.g. tire-product.png → /images/tire-product.png
 
 import { Link } from 'react-router-dom'
+import { assetUrl } from '../../utils/assetUrl'
 import styles from './TireCard.module.css'
 
 /**
@@ -32,7 +33,7 @@ export default function TireCard({
             {badge.text}
           </span>
         )}
-        <img src={image} alt={name} className={styles.image} loading="lazy" />
+        <img src={assetUrl(image)} alt={name} className={styles.image} loading="lazy" />
       </Link>
 
       <div className={styles.info}>

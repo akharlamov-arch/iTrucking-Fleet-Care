@@ -7,6 +7,7 @@ import { formatPrice } from '../utils/format'
 import { ROUTES } from '../constants/routes'
 import { INVOICE } from '../constants/config'
 import Breadcrumbs from '../components/common/Breadcrumbs'
+import { assetUrl } from '../utils/assetUrl'
 import styles from './Product.module.css'
 
 const PRODUCT_DATA = {
@@ -238,7 +239,7 @@ export default function Product() {
 
             {/* Column 1 — Media */}
             <div className={styles.productImageWrap}>
-              <img src={product.image} alt={product.name} className={styles.productImage} />
+              <img src={assetUrl(product.image)} alt={product.name} className={styles.productImage} />
             </div>
 
             {/* Column 2 — Info */}
@@ -342,7 +343,7 @@ export default function Product() {
             {/* Column 3 — Tags + Brand */}
             <div className={styles.productMeta}>
               <div className={styles.brandLogo}>
-                <img src={product.brandLogo} alt={product.brand} />
+                <img src={assetUrl(product.brandLogo)} alt={product.brand} />
               </div>
               <div className={styles.productTags}>
                 {product.tags.map((tag) => (
@@ -389,7 +390,7 @@ export default function Product() {
                 </div>
                 <div className={styles.brandCard}>
                   <div className={styles.brandCardLogo}>
-                    <img src={product.brandLogo} alt={product.brand} />
+                    <img src={assetUrl(product.brandLogo)} alt={product.brand} />
                   </div>
                   <p className={styles.brandCardText}>{product.description.brandText}</p>
                 </div>
