@@ -410,6 +410,15 @@ export default function Catalog() {
     setSelectedSpeedRatings([])
   }
 
+  const activeFilterCount =
+    selectedBrands.length +
+    (selectedLocation !== 'all' ? 1 : 0) +
+    selectedSizes.length + selectedDiameters.length +
+    selectedPositions.length + selectedApplications.length +
+    selectedAttributes.length + selectedLoadRanges.length +
+    selectedLoadIndexes.length + selectedSpeedRatings.length
+  const hasActiveFilters = activeFilterCount > 0
+
   const sidebarProps = {
     brands, selectedBrands, toggleBrand, setSelectedBrands,
     selectedLocation, setSelectedLocation,
@@ -431,14 +440,11 @@ export default function Catalog() {
       <div className={styles.mobileBar}>
         <button className={styles.mobileBtn} onClick={() => setMobileFiltersOpen(true)}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M10 18H14V16H10V18ZM3 6V8H21V6H3ZM6 13H18V11H6V13Z" fill="currentColor"/></svg>
-          Filters {(() => { const n = selectedBrands.length + (selectedLocation !== 'all' ? 1 : 0) + selectedSizes.length + selectedDiameters.length + selectedPositions.length + selectedApplications.length + selectedAttributes.length + selectedLoadRanges.length + selectedLoadIndexes.length + selectedSpeedRatings.length; return n > 0 ? `(${n})` : '' })()}
+          Filters {activeFilterCount > 0 ? `(${activeFilterCount})` : ''}
         </button>
-        <select className={styles.mobileSortSelect} value={sortBy} onChange={e => setSortBy(e.target.value)}>
-          <option value="default">Sort by</option>
-          <option value="price-low">Price: Low → High</option>
-          <option value="price-high">Price: High → Low</option>
-          <option value="discount">Discount %</option>
-        </select>
+        {hasActiveFilters && (
+          <button className={styles.mobileClearBtn} onClick={clearAll}>Clear all</button>
+        )}
       </div>
 
       {/* Mobile sidebar overlay */}
@@ -471,7 +477,9 @@ export default function Catalog() {
           {/* Main */}
           <main ref={mainRef} className={styles.main}>
             <div className={styles.catalogHeader}>
-              <button className={styles.clearFiltersLink} onClick={clearAll}>Clear all filters</button>
+              {hasActiveFilters && (
+                <button className={styles.clearFiltersLink} onClick={clearAll}>Clear all</button>
+              )}
               <span className={styles.resultsCount}>
                 <strong>{filtered.length}</strong> product{filtered.length !== 1 ? 's' : ''} found
               </span>

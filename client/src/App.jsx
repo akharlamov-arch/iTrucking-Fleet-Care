@@ -22,7 +22,7 @@ function ScrollToHash() {
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
       }, 50)
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, behavior: 'instant' })
     }
   }, [pathname, hash])
   return null

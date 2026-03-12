@@ -79,10 +79,11 @@
 
 .heroTitle {
   font-size: 48px;
-  font-weight: 600;
-  line-height: 1.2;
+  font-weight: 700;
+  line-height: 1.15;
   color: #222222;
   margin: 0;
+  font-family: 'Syne', sans-serif;
   animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
 }
 
@@ -603,15 +604,34 @@
   .heroText { order: 1; gap: 12px; padding-top: 0; }
   .heroImage { order: 2; width: 100%; height: auto; min-height: auto; }
   .heroFormWrapper { order: 3; margin-top: 0; }
-  .heroTitle { font-size: 26px; }
+  .heroTitle { font-size: 36px; }
   .heroDescription { font-size: 14px; }
   .formRow { grid-template-columns: 1fr; gap: 12px; }
   .formSelect { padding: 14px 40px 14px 16px; font-size: 14px; }
   .searchButton { padding: 14px 24px; font-size: 14px; width: 100%; }
 
   .brands { padding: 20px 20px 80px; }
+  .brandsContainer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
   .brandsTitle { font-size: 14px; }
-  .brandsLogos { gap: 10px; }
+  .brandsLogos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px 16px;
+    width: 100%;
+    justify-items: center;
+    align-items: center;
+  }
+  .brandLogo {
+    filter: grayscale(0%);
+    opacity: 1;
+    width: auto;
+    max-width: 130px;
+    height: 35px;
+  }
 
   .about { padding: 0 20px 80px; }
   .aboutContainer { display: flex; flex-direction: column; gap: 20px; }
