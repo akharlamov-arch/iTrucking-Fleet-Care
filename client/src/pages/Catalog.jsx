@@ -322,9 +322,11 @@ export default function Catalog() {
   }
 
   const PAGE_SIZE = 6
+  const isFirstRender = useRef(true)
 
-  // Reset visible count and scroll to grid top whenever filters change
+  // Reset visible count and scroll to grid top whenever filters change (skip on mount)
   useEffect(() => {
+    if (isFirstRender.current) { isFirstRender.current = false; return }
     setVisibleCount(9)
     if (mainRef.current) {
       mainRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -438,13 +440,26 @@ export default function Catalog() {
 
       {/* Mobile filter bar */}
       <div className={styles.mobileBar}>
-        <button className={styles.mobileBtn} onClick={() => setMobileFiltersOpen(true)}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M10 18H14V16H10V18ZM3 6V8H21V6H3ZM6 13H18V11H6V13Z" fill="currentColor"/></svg>
-          Filters {activeFilterCount > 0 ? `(${activeFilterCount})` : ''}
-        </button>
-        {hasActiveFilters && (
-          <button className={styles.mobileClearBtn} onClick={clearAll}>Clear all</button>
-        )}
+        <div className={styles.mobileBarRow}>
+          <button className={`${styles.mobileBtn} ${hasActiveFilters ? styles.mobileBtnActive : ''}`} onClick={() => setMobileFiltersOpen(true)}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M10 18H14V16H10V18ZM3 6V8H21V6H3ZM6 13H18V11H6V13Z" fill="currentColor"/></svg>
+            Filters {activeFilterCount > 0 ? `(${activeFilterCount})` : ''}
+            {hasActiveFilters && (
+              <span className={styles.mobileBtnClear} onClick={(e) => { e.stopPropagation(); clearAll() }} aria-label="Clear filters">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 1L11 11M11 1L1 11" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg>
+              </span>
+            )}
+          </button>
+          <select className={styles.mobileSortSelect} value={sortBy} onChange={e => setSortBy(e.target.value)}>
+            <option value="default">Sort by</option>
+            <option value="price-low">Price: Low → High</option>
+            <option value="price-high">Price: High → Low</option>
+            <option value="discount">Discount %</option>
+          </select>
+        </div>
+        <div className={styles.mobileResultsCount}>
+          <strong>{filtered.length}</strong> product{filtered.length !== 1 ? 's' : ''} found
+        </div>
       </div>
 
       {/* Mobile sidebar overlay */}
