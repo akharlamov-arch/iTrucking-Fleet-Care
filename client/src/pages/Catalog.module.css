@@ -123,9 +123,9 @@
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 0;
   width: 85%;
   max-width: 320px;
+  height: 100%;
   background: #ffffff;
   z-index: 2000;
   transform: translateX(-100%);
@@ -167,9 +167,8 @@
 }
 
 .mobileSidebarBody {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
+  flex: 1 1 0;
+  overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   padding: 16px;
   display: flex;
