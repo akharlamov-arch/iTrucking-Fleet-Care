@@ -14,6 +14,24 @@ export const CartContext = createContext(null)
 
 // ─── Storage key ─────────────────────────────────────────────────────────────
 const STORAGE_KEY = 'fc_cart'
+const CART_VERSION = 2  // bump when cart item shape changes — clears stale data
+
+function loadCart() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return []
+    const parsed = JSON.parse(raw)
+    // version mismatch → discard old data
+    if (parsed.version !== CART_VERSION) return []
+    return parsed.items ?? []
+  } catch {
+    return []
+  }
+}
+
+function saveCart(items) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({ version: CART_VERSION, items }))
+}
 
 // ─── Cart Item shape ──────────────────────────────────────────────────────────
 // {
@@ -66,25 +84,11 @@ function cartReducer(state, action) {
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
 export function CartProvider({ children }) {
-  const [items, dispatch] = useReducer(
-    cartReducer,
-    [],
-    // Lazy initializer — load from localStorage on first render
-    () => {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY)
-        return stored ? JSON.parse(stored) : []
-      } catch {
-        return []
-      }
-    }
-  )
+  const [items, dispatch] = useReducer(cartReducer, [], loadCart)
 
   // Persist to localStorage whenever items change
   useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
-    } catch { /* storage full or blocked */ }
+    try { saveCart(items) } catch { /* storage full or blocked */ }
   }, [items])
 
   // ── Derived values ──────────────────────────────────────────────────────────

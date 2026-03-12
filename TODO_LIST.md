@@ -109,7 +109,7 @@
 
 | # | Задача | Статус | Заметки |
 |---|--------|--------|---------|
-| V-01 | git init + первый коммит | ⬜ | .gitignore: node_modules, build/, .env |
+| V-01 | git init + первый коммит | ✅ | 57 files, коммит f654ab2 |
 | V-02 | Репозиторий на GitHub / GitLab (Private) | ⬜ | |
 | V-03 | Деплой фронтенда на AWS S3 + CloudFront | ⬜ | npm run build -> upload build/ |
 | V-04 | Деплой бэкенда на AWS EC2 (PM2) | ⬜ | |

@@ -158,20 +158,33 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 280px 1fr;
+  align-items: stretch;
   gap: 40px;
+}
+
+/* Sidebar wrapper — JS sets its height = main offsetHeight so sticky releases exactly at last card row */
+.sidebarWrap {
+  position: relative;
 }
 
 /* Sidebar */
 .sidebar {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
+  position: sticky;
+  top: 124px;
+  max-height: calc(100vh - 144px);
+  overflow-y: auto;
+  scrollbar-width: none;
 }
+.sidebar::-webkit-scrollbar { display: none; }
 
 /* Filter Group */
 .filterGroup {
   border-radius: 8px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .filterHeader {
@@ -380,6 +393,104 @@
   font-family: 'Instrument Sans', sans-serif;
 }
 
+.sentinel {
+  height: 1px;
+  width: 100%;
+  margin-top: 40px;
+}
+
+/* ── Love's modal ─────────────────────────────────────────────────────────── */
+.lovesOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.2s ease both;
+}
+.lovesModal {
+  position: relative;
+  background: #fff;
+  border-radius: 20px;
+  padding: 40px 36px 36px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 24px 72px rgba(0,0,0,0.18);
+  animation: scaleIn 0.28s cubic-bezier(0.22,1,0.36,1) both;
+}
+.lovesClose {
+  position: absolute;
+  top: 16px; right: 18px;
+  background: none; border: none;
+  font-size: 26px; line-height: 1;
+  color: #999; cursor: pointer;
+  padding: 4px 6px; border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+}
+.lovesClose:hover { color: #222; background: #f3f3f3; }
+.lovesTitle {
+  font-size: 20px; font-weight: 700; color: #111;
+  margin: 0 0 10px; padding-right: 32px;
+}
+.lovesSubtitle {
+  font-size: 14px; color: #555; line-height: 1.55; margin: 0 0 24px;
+}
+.lovesForm { display: flex; flex-direction: column; gap: 16px; }
+.lovesField { display: flex; flex-direction: column; gap: 5px; }
+.lovesLabel { font-size: 13px; font-weight: 600; color: #333; }
+.lovesInput {
+  height: 44px; padding: 0 14px;
+  border: 1.5px solid #ddd; border-radius: 10px;
+  font-size: 14.5px; color: #111; background: #fafafa; outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.lovesInput:focus { border-color: #111; box-shadow: 0 0 0 3px rgba(0,0,0,0.06); background: #fff; }
+.lovesInputErr { border-color: #e03131; }
+.lovesErr { font-size: 12px; color: #e03131; }
+.lovesHint { font-size: 12px; color: #888; }
+.lovesSubmit {
+  margin-top: 4px; height: 50px;
+  background: #111; color: #fff; border: none; border-radius: 12px;
+  font-size: 15.5px; font-weight: 600; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.lovesSubmit:hover:not(:disabled) { background: #222; box-shadow: 0 4px 16px rgba(0,0,0,0.22); }
+.lovesSubmit:active:not(:disabled) { transform: scale(0.97); }
+.lovesSubmit:disabled { opacity: 0.65; cursor: not-allowed; }
+.lovesSpinner {
+  display: inline-block; width: 17px; height: 17px;
+  border: 2.5px solid rgba(255,255,255,0.35); border-top-color: #fff;
+  border-radius: 50%; animation: spin 0.65s linear infinite;
+}
+.lovesSuccessWrap {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 16px; padding: 10px 0 4px; text-align: center;
+}
+.lovesCheckCircle {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: #111; display: flex; align-items: center; justify-content: center;
+  animation: scaleIn 0.3s cubic-bezier(0.22,1,0.36,1) both;
+}
+.lovesCheckCircle svg { width: 28px; height: 28px; stroke: #fff; }
+.lovesDoneBtn {
+  margin-top: 8px; height: 46px; padding: 0 32px;
+  background: #111; color: #fff; border: none; border-radius: 12px;
+  font-size: 15px; font-weight: 600; cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.lovesDoneBtn:hover { background: #222; box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
+@media (max-width: 480px) {
+  .lovesModal { padding: 32px 22px 28px; border-radius: 16px; }
+}
+
 /* Responsive */
 @media (max-width: 1280px) {
   .productGrid { grid-template-columns: repeat(2, 1fr); }
@@ -394,10 +505,73 @@
   .mobileBar { display: flex; }
   .catalog { padding: 20px 20px 80px; }
   .catalogContainer { grid-template-columns: 1fr; }
-  .sidebar { display: none; }
+  .sidebarWrap { display: none; }
   .productGrid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
 }
 
 @media (max-width: 480px) {
   .productGrid { grid-template-columns: 1fr; }
+}
+
+/* ── Skeleton loader ─────────────────────────────────────────────────────── */
+.skeletonCard {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #E2E2E2;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.skeletonImage {
+  width: 100%;
+  height: 280px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e6e6e6 50%, #f0f0f0 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.skeletonBody {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeletonLine {
+  height: 13px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e6e6e6 50%, #f0f0f0 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+.skeletonShort { width: 38%; }
+.skeletonMed   { width: 68%; }
+.skeletonLong  { width: 88%; }
+
+.skeletonButtons {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.skeletonBtn {
+  flex: 1;
+  height: 42px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e6e6e6 50%, #f0f0f0 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+/* ── Card stagger reveal ─────────────────────────────────────────────────── */
+.cardReveal {
+  animation: cardFadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  height: 100%;
+}
+
+@keyframes cardFadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

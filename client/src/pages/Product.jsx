@@ -1,6 +1,8 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useCart } from '../hooks/useCart'
+import { useCatalog } from '../hooks/useCatalog'
 import { formatPrice } from '../utils/format'
 import { ROUTES } from '../constants/routes'
 import { INVOICE } from '../constants/config'
@@ -12,7 +14,7 @@ const PRODUCT_DATA = {
   name: 'Hankook Smart Flex DL15+',
   brand: 'Hankook',
   brandLogo: '/images/hankook-logo.png',
-  video: '/images/tire-hankook-dl15.mp4',
+  image: '/images/tire-product.png',
   price: 485,
   retailPrice: 795,
   discount: 40,
@@ -57,11 +59,144 @@ export default function Product() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { addItem } = useCart()
-  const product = PRODUCT_DATA // In future: fetch by id from API
+  const { products, getFamily } = useCatalog()
 
+  // Merge catalog sheet data (name, price, image, description…)
+  // with static detail data (specs table, size chart) as fallback
+  const product = useMemo(() => {
+    const cp = products.find(p => p.id === id)
+    if (!cp) return PRODUCT_DATA
+    const capBrand = cp.brand
+      ? cp.brand.split('-').map(w => w[0].toUpperCase() + w.slice(1)).join(' ')
+      : PRODUCT_DATA.brand
+
+    // Build specs: use PRODUCT_DATA rows as template (preserves spec name + description),
+    // replace value with catalog value if present
+    const specKeyMap = {
+      sidewall:     0, treadPattern: 1, treadDepth: 2, loadIndex:   3,
+      speedRating:  4, aspectRatio:  5, diameter:   6, seasonality: 7, warranty: 8,
+    }
+    const specifications = PRODUCT_DATA.specifications.map((row, i) => {
+      const catalogSpec = cp.specifications?.find(s => specKeyMap[s.key] === i)
+      return catalogSpec?.value ? { ...row, value: catalogSpec.value } : row
+    })
+
+    return {
+      ...PRODUCT_DATA,
+      name:           cp.name,
+      brand:          capBrand,
+      brandLogo:      cp.brandLogo  || PRODUCT_DATA.brandLogo,
+      image:          cp.image      || PRODUCT_DATA.image,
+      price:          cp.priceNum   || PRODUCT_DATA.price,
+      retailPrice:    cp.discountNum > 0
+        ? Math.round(cp.priceNum / (1 - cp.discountNum / 100))
+        : PRODUCT_DATA.retailPrice,
+      discount:       cp.discountNum || PRODUCT_DATA.discount,
+      tags:           cp.tags.length ? cp.tags : PRODUCT_DATA.tags,
+      // currentSize = the actual size of THIS product page (used in Add to Cart)
+      currentSize:    cp.size       || PRODUCT_DATA.sizes[0],
+      specifications,
+      description: {
+        text:      cp.description ? [cp.description] : PRODUCT_DATA.description.text,
+        brandText: cp.brandText   || PRODUCT_DATA.description.brandText,
+      },
+      availability: {
+        sacramento: {
+          status: cp.availSacStatus  || PRODUCT_DATA.availability.sacramento.status,
+          label:  cp.availSacLabel   || PRODUCT_DATA.availability.sacramento.label,
+        },
+        loves: {
+          status: cp.availLovesStatus || PRODUCT_DATA.availability.loves.status,
+          label:  cp.availLovesLabel  || PRODUCT_DATA.availability.loves.label,
+        },
+      },
+    }
+  }, [products, id])
+
+  // All products that share the same family_id as the current product.
+  // Each sibling = one tire size. Used for the size selector and Size Details table.
+  const siblings = useMemo(() => {
+    const cp = products.find(p => p.id === id)
+    if (!cp?.familyId) return []
+    return getFamily(cp.familyId)
+  }, [products, id, getFamily])
+
+  // For size selector: when siblings exist navigate to that product page;
+  // otherwise fall back to local state (PRODUCT_DATA fallback mode)
   const [selectedSize, setSelectedSize] = useState(product.sizes[0])
+
+  const sizeOptions = siblings.length > 0
+    ? siblings.map(s => s.size)
+    : product.sizes
+
+  const activeSizeValue = siblings.length > 0 ? product.currentSize : selectedSize
+
+  function handleSizeChange(e) {
+    const chosen = e.target.value
+    if (siblings.length > 0) {
+      const target = siblings.find(s => s.size === chosen)
+      if (target) navigate(ROUTES.productById(target.id))
+    } else {
+      setSelectedSize(chosen)
+    }
+  }
   const [quantity, setQuantity] = useState(4)
   const [activeTab, setActiveTab] = useState('description')
+
+  // ── Love's modal ──────────────────────────────────────────────────────────
+  const LOVES_FORM_INIT = { fullName: '', companyName: '', phone: '', email: '' }
+  const [lovesOpen,    setLovesOpen]    = useState(false)
+  const [lovesForm,    setLovesForm]    = useState(LOVES_FORM_INIT)
+  const [lovesErrors,  setLovesErrors]  = useState({})
+  const [lovesLoading, setLovesLoading] = useState(false)
+  const [lovesSuccess, setLovesSuccess] = useState(false)
+  const modalRef = useRef(null)
+
+  // Close on Escape / outside click
+  useEffect(() => {
+    if (!lovesOpen) return
+    const onKey = (e) => { if (e.key === 'Escape') closeModal() }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = ''
+    }
+  }, [lovesOpen])
+
+  function openLovesModal() { setLovesOpen(true); setLovesSuccess(false); setLovesForm(LOVES_FORM_INIT); setLovesErrors({}) }
+  function closeModal()     { setLovesOpen(false) }
+
+  function formatPhone(v) {
+    const d = v.replace(/\D/g, '').slice(0, 10)
+    if (d.length < 4) return d
+    if (d.length < 7) return `(${d.slice(0,3)}) ${d.slice(3)}`
+    return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`
+  }
+
+  function handleLovesChange(e) {
+    const { name, value } = e.target
+    const next = name === 'phone' ? formatPhone(value) : value
+    setLovesForm(p => ({ ...p, [name]: next }))
+    if (lovesErrors[name]) setLovesErrors(p => ({ ...p, [name]: undefined }))
+  }
+
+  async function handleLovesSubmit(e) {
+    e.preventDefault()
+    const errs = {}
+    if (!lovesForm.fullName.trim())    errs.fullName    = 'Required'
+    if (!lovesForm.companyName.trim()) errs.companyName = 'Required'
+    if (!lovesForm.phone.trim())       errs.phone       = 'Required'
+    if (!lovesForm.email.trim())       errs.email       = 'Required'
+    else if (!/^[^@]+@[^@]+\.[^@]+$/.test(lovesForm.email)) errs.email = 'Invalid email'
+    if (Object.keys(errs).length) { setLovesErrors(errs); return }
+
+    setLovesLoading(true)
+    // Backend not connected yet — simulate success
+    await new Promise(r => setTimeout(r, 900))
+    setLovesLoading(false)
+    setLovesSuccess(true)
+  }
 
   const pricing = useMemo(() => {
     const totalRetail = product.retailPrice * quantity
@@ -76,11 +211,12 @@ export default function Product() {
     addItem({
       productId: product.id,
       name:      product.name,
-      size:      selectedSize,
+      brand:     product.brand,
+      size:      activeSizeValue,
       location,
       price:     product.price,
       quantity,
-      image:     product.video,
+      image:     product.image,
     })
     navigate(ROUTES.CART)
   }
@@ -93,9 +229,7 @@ export default function Product() {
 
   return (
     <div className={styles.page}>
-      <div className={styles.breadcrumbsWrap}>
-        <Breadcrumbs items={breadcrumbs} />
-      </div>
+      <Breadcrumbs items={breadcrumbs} />
 
       {/* Product layout */}
       <section className={styles.productSection}>
@@ -104,9 +238,7 @@ export default function Product() {
 
             {/* Column 1 — Media */}
             <div className={styles.productImageWrap}>
-              <video autoPlay loop muted playsInline className={styles.productVideo}>
-                <source src={product.video} type="video/mp4" />
-              </video>
+              <img src={product.image} alt={product.name} className={styles.productImage} />
             </div>
 
             {/* Column 2 — Info */}
@@ -118,10 +250,10 @@ export default function Product() {
                 <span className={styles.selectLabel}>Tire Size</span>
                 <select
                   className={styles.productSelect}
-                  value={selectedSize}
-                  onChange={(e) => setSelectedSize(e.target.value)}
+                  value={activeSizeValue}
+                  onChange={handleSizeChange}
                 >
-                  {product.sizes.map((s) => (
+                  {sizeOptions.map((s) => (
                     <option key={s} value={s}>{s}</option>
                   ))}
                 </select>
@@ -137,31 +269,41 @@ export default function Product() {
                 </div>
               </div>
 
-              {/* Quantity select */}
-              <div className={styles.selectWrap}>
-                <span className={styles.selectLabel}>Quantity</span>
-                <select
-                  className={styles.productSelect}
-                  value={quantity}
-                  onChange={(e) => setQuantity(Number(e.target.value))}
-                >
-                  {[1, 2, 4, 6, 8, 10].map((q) => (
-                    <option key={q} value={q}>{q} {q === 1 ? 'tire' : 'tires'}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Availability */}
-              <div className={styles.availabilityRow}>
-                <span className={styles.availabilityLabel}>Availability</span>
-                <div className={styles.availabilityItems}>
-                  <div className={styles.availabilityItem}>
-                    <span className={`${styles.availabilityDot} ${styles.dotOrange}`}></span>
-                    {product.availability.sacramento.label}
+              {/* Quantity + Availability row */}
+              <div className={styles.qtyAvailRow}>
+                {/* Quantity stepper */}
+                <div className={styles.selectWrap}>
+                  <span className={styles.selectLabel}>Quantity</span>
+                  <div className={styles.qtyStepper}>
+                    <button
+                      className={styles.qtyBtn}
+                      onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                      aria-label="Decrease quantity"
+                      disabled={quantity <= 1}
+                    >−</button>
+                    <span className={styles.qtyValue}>
+                      {quantity} {quantity === 1 ? 'tire' : 'tires'}
+                    </span>
+                    <button
+                      className={styles.qtyBtn}
+                      onClick={() => setQuantity(q => q + 1)}
+                      aria-label="Increase quantity"
+                    >+</button>
                   </div>
-                  <div className={styles.availabilityItem}>
-                    <span className={`${styles.availabilityDot} ${styles.dotGreen}`}></span>
-                    {product.availability.loves.label}
+                </div>
+
+                {/* Availability */}
+                <div className={styles.availabilityRow}>
+                  <span className={styles.availabilityLabel}>Availability</span>
+                  <div className={styles.availabilityItems}>
+                    <div className={styles.availabilityItem}>
+                      <span className={`${styles.availabilityDot} ${styles.dotOrange}`}></span>
+                      {product.availability.sacramento.label}
+                    </div>
+                    <div className={styles.availabilityItem}>
+                      <span className={`${styles.availabilityDot} ${styles.dotGreen}`}></span>
+                      {product.availability.loves.label}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -171,7 +313,7 @@ export default function Product() {
                 <button className={styles.btnPrimary} onClick={() => handleBuy('sacramento')}>
                   Buy in Sacramento's Warehouse
                 </button>
-                <button className={styles.btnSecondary} onClick={() => handleBuy('loves')}>
+                <button className={styles.btnSecondary} onClick={openLovesModal}>
                   Buy at any Love's &amp; Speedco truck stops
                 </button>
               </div>
@@ -333,16 +475,36 @@ export default function Product() {
                     </tr>
                   </thead>
                   <tbody>
-                    {product.sizeDetails.map((row) => (
-                      <tr key={row.size}>
-                        <td data-label="Size"><strong>{row.size}</strong></td>
-                        <td data-label="Load Index">{row.loadIndex}</td>
-                        <td data-label="Load Range/Ply Rating">{row.loadRange}</td>
-                        <td data-label="Overall Diameter">{row.diameter}</td>
-                        <td data-label="Max Dual Load">{row.maxDual}</td>
-                        <td data-label="MFG #">{row.mfg}</td>
-                      </tr>
-                    ))}
+                    {siblings.length > 0
+                      ? siblings.map((s) => {
+                          const isCurrent = s.id === id
+                          return (
+                            <tr
+                              key={s.id}
+                              className={isCurrent ? styles.sizeRowCurrent : styles.sizeRowLink}
+                              onClick={() => !isCurrent && navigate(ROUTES.productById(s.id))}
+                              title={isCurrent ? 'Currently viewing' : `Open ${s.size}`}
+                            >
+                              <td data-label="Size"><strong>{s.size}</strong></td>
+                              <td data-label="Load Index">{s.loadIndex}</td>
+                              <td data-label="Load Range/Ply Rating">{s.loadRange}</td>
+                              <td data-label="Overall Diameter">{s.overallDiameter}</td>
+                              <td data-label="Max Dual Load">{s.maxDual}</td>
+                              <td data-label="MFG #">{s.mfgNumber}</td>
+                            </tr>
+                          )
+                        })
+                      : product.sizeDetails.map((row) => (
+                          <tr key={row.size}>
+                            <td data-label="Size"><strong>{row.size}</strong></td>
+                            <td data-label="Load Index">{row.loadIndex}</td>
+                            <td data-label="Load Range/Ply Rating">{row.loadRange}</td>
+                            <td data-label="Overall Diameter">{row.diameter}</td>
+                            <td data-label="Max Dual Load">{row.maxDual}</td>
+                            <td data-label="MFG #">{row.mfg}</td>
+                          </tr>
+                        ))
+                    }
                   </tbody>
                 </table>
               </div>
@@ -351,6 +513,93 @@ export default function Product() {
 
         </div>
       </section>
+
+      {/* ── Love's & Speedco modal ─────────────────────────────────────── */}
+      {lovesOpen && createPortal(
+        <div className={styles.lovesOverlay} onClick={(e) => { if (e.target === e.currentTarget) closeModal() }}>
+          <div className={styles.lovesModal} ref={modalRef}>
+            <button className={styles.lovesClose} aria-label="Close" onClick={closeModal}>&times;</button>
+
+            {lovesSuccess ? (
+              <div className={styles.lovesSuccess}>
+                <div className={styles.lovesCheckCircle}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <h2 className={styles.lovesSuccessTitle}>Instructions sent!</h2>
+                <p className={styles.lovesSuccessText}>
+                  We've sent discount instructions to <strong>{lovesForm.email}</strong>.<br/>
+                  Show them at any Love's or Speedco location to redeem your fleet discount.
+                </p>
+                <button className={styles.lovesDoneBtn} onClick={closeModal}>Done</button>
+              </div>
+            ) : (
+              <>
+                <h2 className={styles.lovesTitle}>Get discount instructions</h2>
+                <p className={styles.lovesSubtitle}>
+                  Fill in your details and we'll send step-by-step instructions on how to use
+                  your fleet discount at any Love's &amp; Speedco truck stop.
+                </p>
+
+                <form className={styles.lovesForm} onSubmit={handleLovesSubmit} noValidate>
+                  <div className={styles.lovesField}>
+                    <label className={styles.lovesLabel}>Full Name *</label>
+                    <input
+                      className={`${styles.lovesInput}${lovesErrors.fullName ? ' ' + styles.lovesInputErr : ''}`}
+                      name="fullName" value={lovesForm.fullName} onChange={handleLovesChange}
+                      placeholder="John Smith"
+                    />
+                    {lovesErrors.fullName && <span className={styles.lovesErr}>{lovesErrors.fullName}</span>}
+                  </div>
+
+                  <div className={styles.lovesField}>
+                    <label className={styles.lovesLabel}>Company Name *</label>
+                    <input
+                      className={`${styles.lovesInput}${lovesErrors.companyName ? ' ' + styles.lovesInputErr : ''}`}
+                      name="companyName" value={lovesForm.companyName} onChange={handleLovesChange}
+                      placeholder="ABC Trucking LLC"
+                    />
+                    {lovesErrors.companyName && <span className={styles.lovesErr}>{lovesErrors.companyName}</span>}
+                  </div>
+
+                  <div className={styles.lovesField}>
+                    <label className={styles.lovesLabel}>Phone *</label>
+                    <input
+                      className={`${styles.lovesInput}${lovesErrors.phone ? ' ' + styles.lovesInputErr : ''}`}
+                      name="phone" value={lovesForm.phone} onChange={handleLovesChange}
+                      placeholder="(555) 000-0000" type="tel"
+                    />
+                    {lovesErrors.phone && <span className={styles.lovesErr}>{lovesErrors.phone}</span>}
+                  </div>
+
+                  <div className={styles.lovesField}>
+                    <label className={styles.lovesLabel}>Email *</label>
+                    <input
+                      className={`${styles.lovesInput}${lovesErrors.email ? ' ' + styles.lovesInputErr : ''}`}
+                      name="email" value={lovesForm.email} onChange={handleLovesChange}
+                      placeholder="john@company.com" type="email"
+                    />
+                    {lovesErrors.email && <span className={styles.lovesErr}>{lovesErrors.email}</span>}
+                    <span className={styles.lovesHint}>Instructions will be sent to this email address</span>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className={styles.lovesSubmit}
+                    disabled={lovesLoading}
+                  >
+                    {lovesLoading
+                      ? <><span className={styles.lovesSpinner} aria-hidden="true"/> Sending…</>
+                      : 'Send Instructions'}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>,
+      document.body
+      )}
     </div>
   )
 }

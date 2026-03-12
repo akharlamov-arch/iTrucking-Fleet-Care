@@ -1,6 +1,11 @@
+import { useState, useRef, useEffect, useMemo } from 'react'
+import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { ROUTES } from '../constants/routes'
+import { useCart } from '../hooks/useCart'
+import { useCatalog } from '../hooks/useCatalog'
 import TireCard from '../components/common/TireCard'
+import Reveal from '../components/common/Reveal'
 import styles from './Home.module.css'
 
 // ── inline SVG helpers ────────────────────────────────────────────────────────
@@ -12,12 +17,17 @@ const TruckIcon = () => (
   </svg>
 )
 
-// ── Featured tire data ────────────────────────────────────────────────────────
-const TIRE_DEALS = [
-  { id: 'hankook-dl15',      badge: { text: 'Best %', variant: 'red'  }, price: '$485.00', oldPrice: '$795.00 retail price', discount: '-40%', name: 'Hankook Smart Flex DL15+', size: '295/60R22.5', tags: ['Long Haul','Steer(All)','M+S','S3PMSF'],    image: '/images/tire-product.png' },
-  { id: 'bridgestone-r238',  badge: { text: 'NEW',    variant: 'blue' }, price: '$375.00', oldPrice: '$700.00 retail price', discount: '-46%', name: 'Bridgestone R238',          size: '295/75R22.5', tags: ['Mixed Service','Drive','M+S','S3PMSF'],   image: '/images/tire-product.png' },
-  { id: 'goodyear-endurance',badge: { text: 'Best %', variant: 'red'  }, price: '$320.00', oldPrice: '$600.00 retail price', discount: '-47%', name: 'Goodyear Endurance',         size: '225/75R16',   tags: ['Trailer','All Position','M+S','S3PMSF'], image: '/images/tire-product.png' },
-  { id: 'michelin-xda5',     badge: { text: 'Best %', variant: 'red'  }, price: '$550.00', oldPrice: '$900.00 retail price', discount: '-39%', name: 'Michelin XDA-5',            size: '11R22.5',     tags: ['Regional','Drive','M+S','S3PMSF'],       image: '/images/tire-product.png' },
+
+
+const BRAND_OPTIONS = [
+  { value: 'hankook',     label: 'Hankook' },
+  { value: 'bridgestone', label: 'Bridgestone' },
+  { value: 'continental', label: 'Continental' },
+  { value: 'yokohama',    label: 'Yokohama' },
+  { value: 'michelin',    label: 'Michelin' },
+  { value: 'double-coin', label: 'Double Coin' },
+  { value: 'ralson',      label: 'Ralson' },
+  { value: 'retread',     label: 'Retread' },
 ]
 
 const BRANDS = [
@@ -30,8 +40,99 @@ const BRANDS = [
 ]
 
 // ── Component ─────────────────────────────────────────────────────────────────
+function formatPhone(v) {
+  const d = v.replace(/\D/g, '').slice(0, 10)
+  if (d.length < 4) return d
+  if (d.length < 7) return `(${d.slice(0,3)}) ${d.slice(3)}`
+  return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`
+}
+
 export default function Home() {
   const navigate = useNavigate()
+  const { addItem } = useCart()
+  const { products } = useCatalog()
+
+  // Show up to 4 products with a badge first, then fill with any products
+  const tireDeals = useMemo(() => {
+    const withBadge = products.filter(p => p.badge)
+    const rest = products.filter(p => !p.badge)
+    return [...withBadge, ...rest].slice(0, 4)
+  }, [products])
+  const [selectedBrands, setSelectedBrands] = useState([])
+  const [brandOpen, setBrandOpen] = useState(false)
+  const brandRef = useRef(null)
+
+  // ── Love's modal ──────────────────────────────────────────────────────────
+  const LOVES_INIT = { fullName: '', companyName: '', phone: '', email: '' }
+  const [lovesOpen,    setLovesOpen]    = useState(false)
+  const [lovesProduct, setLovesProduct] = useState(null)
+  const [lovesForm,    setLovesForm]    = useState(LOVES_INIT)
+  const [lovesErrors,  setLovesErrors]  = useState({})
+  const [lovesLoading, setLovesLoading] = useState(false)
+  const [lovesSuccess, setLovesSuccess] = useState(false)
+
+  function openLovesModal(product) {
+    setLovesProduct(product); setLovesForm(LOVES_INIT)
+    setLovesErrors({}); setLovesSuccess(false); setLovesOpen(true)
+  }
+  function closeLovesModal() { setLovesOpen(false) }
+
+  useEffect(() => {
+    if (!lovesOpen) return
+    const onKey = (e) => { if (e.key === 'Escape') closeLovesModal() }
+    document.addEventListener('keydown', onKey)
+    document.body.style.overflow = 'hidden'
+    return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = '' }
+  }, [lovesOpen])
+
+  function handleLovesChange(e) {
+    const { name, value } = e.target
+    const next = name === 'phone' ? formatPhone(value) : value
+    setLovesForm(p => ({ ...p, [name]: next }))
+    if (lovesErrors[name]) setLovesErrors(p => ({ ...p, [name]: undefined }))
+  }
+
+  async function handleLovesSubmit(e) {
+    e.preventDefault()
+    const errs = {}
+    if (!lovesForm.fullName.trim())    errs.fullName    = 'Required'
+    if (!lovesForm.companyName.trim()) errs.companyName = 'Required'
+    if (!lovesForm.phone.trim())       errs.phone       = 'Required'
+    if (!lovesForm.email.trim())       errs.email       = 'Required'
+    else if (!/^[^@]+@[^@]+\.[^@]+$/.test(lovesForm.email)) errs.email = 'Invalid email'
+    if (Object.keys(errs).length) { setLovesErrors(errs); return }
+    setLovesLoading(true)
+    await new Promise(r => setTimeout(r, 900))
+    setLovesLoading(false); setLovesSuccess(true)
+  }
+
+  function handleBuySacramento(t) {
+    addItem({
+      productId: t.id,
+      name:      t.name,
+      brand:     t.id.split('-')[0],
+      size:      t.size,
+      location:  'sacramento',
+      price:     parseFloat(t.price.replace(/[^\d.]/g, '')),
+      quantity:  1,
+      image:     t.image,
+    })
+    navigate(ROUTES.CART)
+  }
+
+  useEffect(() => {
+    function handleOutside(e) {
+      if (brandRef.current && !brandRef.current.contains(e.target)) setBrandOpen(false)
+    }
+    document.addEventListener('mousedown', handleOutside)
+    return () => document.removeEventListener('mousedown', handleOutside)
+  }, [])
+
+  function toggleBrand(val) {
+    setSelectedBrands(prev =>
+      prev.includes(val) ? prev.filter(b => b !== val) : [...prev, val]
+    )
+  }
 
   function handleSearch(e) {
     e.preventDefault()
@@ -41,11 +142,12 @@ export default function Home() {
     if (fd.get('ratio'))    params.set('ratio',    fd.get('ratio'))
     if (fd.get('diameter')) params.set('diameter', fd.get('diameter'))
     if (fd.get('position')) params.set('position', fd.get('position'))
-    if (fd.get('brand'))    params.set('brand',    fd.get('brand'))
+    selectedBrands.forEach(b => params.append('brand', b))
     navigate(ROUTES.CATALOG + '?' + params.toString())
   }
 
   return (
+    <>
     <div className={styles.page}>
 
       {/* ── HERO ─────────────────────────────────────────────────── */}
@@ -98,13 +200,41 @@ export default function Home() {
                       ))}
                     </select>
                   </div>
-                  <div className={styles.formGroup}>
-                    <select name="brand" className={styles.formSelect}>
-                      <option value="">Brand (optional)</option>
-                      {['Hankook','Bridgestone','Continental','Yokohama','Michelin','Double Coin','Ralson','Retread'].map(b => (
-                        <option key={b} value={b}>{b}</option>
-                      ))}
-                    </select>
+                  <div className={styles.formGroup} ref={brandRef}>
+                    <button
+                      type="button"
+                      className={`${styles.formSelect} ${styles.brandTrigger} ${brandOpen ? styles.brandTriggerOpen : ''}`}
+                      onClick={() => setBrandOpen(v => !v)}
+                    >
+                      <span className={selectedBrands.length ? styles.brandTriggerActive : styles.brandTriggerPlaceholder}>
+                        {selectedBrands.length === 0
+                          ? 'Brand (optional)'
+                          : selectedBrands.length === 1
+                            ? BRAND_OPTIONS.find(b => b.value === selectedBrands[0])?.label
+                            : `${selectedBrands.length} brands`}
+                      </span>
+                    </button>
+                    {brandOpen && (
+                      <div className={styles.brandDropdown}>
+                        {BRAND_OPTIONS.map(({ value, label }) => (
+                          <label key={value} className={styles.brandOption}>
+                            <input
+                              type="checkbox"
+                              checked={selectedBrands.includes(value)}
+                              onChange={() => toggleBrand(value)}
+                              className={styles.brandCheckbox}
+                            />
+                            {label}
+                            {selectedBrands.includes(value) && <span className={styles.brandCheck}>✓</span>}
+                          </label>
+                        ))}
+                        {selectedBrands.length > 0 && (
+                          <button type="button" className={styles.brandClear} onClick={() => setSelectedBrands([])}>
+                            Clear selection
+                          </button>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <button type="submit" className={styles.searchButton}>Search</button>
                 </div>
@@ -121,10 +251,12 @@ export default function Home() {
       {/* ── TRUSTED BRANDS ───────────────────────────────────────── */}
       <section className={styles.brands}>
         <div className={styles.brandsContainer}>
-          <h2 className={styles.brandsTitle}>Trusted Brands</h2>
+          <Reveal><h2 className={styles.brandsTitle}>Trusted Brands</h2></Reveal>
           <div className={styles.brandsLogos}>
-            {BRANDS.map(b => (
-              <img key={b.name} src={b.src} alt={b.name} className={styles.brandLogo} />
+            {BRANDS.map((b, i) => (
+              <Reveal key={b.name} delay={i * 80} direction="scale" as="span">
+                <img src={b.src} alt={b.name} className={styles.brandLogo} />
+              </Reveal>
             ))}
           </div>
         </div>
@@ -132,87 +264,169 @@ export default function Home() {
 
       {/* ── ABOUT US ─────────────────────────────────────────────── */}
       <section className={styles.about} id="about">
-        <div className={styles.aboutContainer}>
-          <div className={styles.aboutVideo}>
-            <video autoPlay loop muted playsInline>
-              <source src="/images/truck-video.mp4" type="video/mp4" />
-            </video>
-          </div>
-
-          <div className={styles.aboutContent}>
-            <div className={styles.aboutBadge}>
-              <span className={styles.bullet}>•</span> About us <span className={styles.bullet}>•</span>
+        <Reveal threshold={0.08}>
+          <div className={styles.aboutContainer}>
+            <div className={styles.aboutVideo}>
+              <video autoPlay loop muted playsInline>
+                <source src="/images/truck-video.mp4" type="video/mp4" />
+              </video>
             </div>
-            <h2 className={styles.aboutTitle}>
-              iTrucking <span className={styles.highlight}>Fleet Care</span> is a nationwide tire support company built for truckers and fleets.
-            </h2>
-            <p className={styles.aboutText}>
-              As an official partner of Love&apos;s Travel Stops and Speedco, our customers can access tire discounts and services at any Love&apos;s or Speedco location across the US. We also operate our own warehouse in Sacramento,&nbsp;CA, helping us provide fast, reliable tire solutions when drivers need them most.
-            </p>
-            <div className={styles.aboutPartners}>
-              <a href="/catalog" className={styles.exploreButton}>
-                <TruckIcon /> Explore catalog
-              </a>
-              <div className={styles.partnerLogos}>
-                <img src="/images/partners/loves.png"   alt="Love's Travel Stops" className={styles.partnerLogo} />
-                <img src="/images/partners/speedco.png" alt="Speedco"             className={styles.partnerLogo} />
+
+            <div className={styles.aboutContent}>
+              <div className={styles.aboutBadge}>
+                <span className={styles.bullet}>•</span> About us <span className={styles.bullet}>•</span>
+              </div>
+              <h2 className={styles.aboutTitle}>
+                iTrucking <span className={styles.highlight}>Fleet Care</span> is a nationwide tire support company built for truckers and fleets.
+              </h2>
+              <p className={styles.aboutText}>
+                As an official partner of Love&apos;s Travel Stops and Speedco, our customers can access tire discounts and services at any Love&apos;s or Speedco location across the US. We also operate our own warehouse in Sacramento,&nbsp;CA, helping us provide fast, reliable tire solutions when drivers need them most.
+              </p>
+              <div className={styles.aboutPartners}>
+                <a href="/catalog" className={styles.exploreButton}>
+                  <TruckIcon /> Explore catalog
+                </a>
+                <div className={styles.partnerLogos}>
+                  <img src="/images/partners/loves.png"   alt="Love's Travel Stops" className={styles.partnerLogo} />
+                  <img src="/images/partners/speedco.png" alt="Speedco"             className={styles.partnerLogo} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* ── TIRE DEALS ───────────────────────────────────────────── */}
       <section className={styles.tireDeals}>
         <div className={styles.tireDealsContainer}>
-          <div className={styles.sectionHeader}>
-            <div className={styles.sectionBadge}>
-              <span className={styles.bullet}>•</span> Trends Tires <span className={styles.bullet}>•</span>
+          <Reveal>
+            <div className={styles.sectionHeader}>
+              <div className={styles.sectionBadge}>
+                <span className={styles.bullet}>•</span> Trends Tires <span className={styles.bullet}>•</span>
+              </div>
+              <h2 className={styles.sectionTitle}>
+                Our Most Popular <span className={styles.highlight}>Tire Deals</span>
+              </h2>
+              <p className={styles.sectionDescription}>High-demand tires available with exclusive Fleet Care savings.</p>
             </div>
-            <h2 className={styles.sectionTitle}>
-              Our Most Popular <span className={styles.highlight}>Tire Deals</span>
-            </h2>
-            <p className={styles.sectionDescription}>High-demand tires available with exclusive Fleet Care savings.</p>
-          </div>
+          </Reveal>
 
           <div className={styles.tireGrid}>
-            {TIRE_DEALS.map(t => <TireCard key={t.id} {...t} />)}
+            {tireDeals.map((t, i) => (
+              <Reveal key={t.id} delay={i * 100} direction="up" className={styles.cardRevealOuter}>
+                <TireCard
+                  {...t}
+                  onBuySacramento={() => handleBuySacramento(t)}
+                  onBuyLoves={() => openLovesModal(t)}
+                />
+              </Reveal>
+            ))}
           </div>
 
-          <div className={styles.exploreMore}>
-            <a href="/catalog" className={styles.exploreMoreBtn}>
-              <TruckIcon /> Explore more tires
-            </a>
-          </div>
+          <Reveal delay={200}>
+            <div className={styles.exploreMore}>
+              <a href="/catalog" className={styles.exploreMoreBtn}>
+                <TruckIcon /> Explore more tires
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* ── PICKUP & DELIVERY ────────────────────────────────────── */}
       <section className={styles.pickupDelivery} id="how-it-works">
-        <div className={styles.pickupDeliveryContainer}>
-          <div className={styles.pickupContent}>
-            <div className={styles.sectionBadge}>
-              <span className={styles.bullet}>•</span> How it works? <span className={styles.bullet}>•</span>
+        <Reveal threshold={0.08}>
+          <div className={styles.pickupDeliveryContainer}>
+            <div className={styles.pickupContent}>
+              <div className={styles.sectionBadge}>
+                <span className={styles.bullet}>•</span> How it works? <span className={styles.bullet}>•</span>
+              </div>
+              <h2 className={styles.sectionTitle}>
+                Flexible Tire <span className={styles.highlight}>Pickup &amp; Delivery</span> Options
+              </h2>
+              <p className={styles.pickupText}>
+                Get discounted tires your way — pick up from our <strong>Sacramento</strong> warehouse, enjoy free local delivery on orders over $1,000, or collect at any Love&apos;s &amp; Speedco nationwide.
+              </p>
+              <a href="tel:+19162340257" className={styles.callButton}>
+                <TruckIcon /> Call us to know more
+              </a>
             </div>
-            <h2 className={styles.sectionTitle}>
-              Flexible Tire <span className={styles.highlight}>Pickup &amp; Delivery</span> Options
-            </h2>
-            <p className={styles.pickupText}>
-              Get discounted tires your way — pick up from our <strong>Sacramento</strong> warehouse, enjoy free local delivery on orders over $1,000, or collect at any Love&apos;s &amp; Speedco nationwide.
-            </p>
-            <a href="tel:+19162340257" className={styles.callButton}>
-              <TruckIcon /> Call us to know more
-            </a>
-          </div>
 
-          <div className={styles.pickupVideo}>
-            <video autoPlay loop muted playsInline>
-              <source src="/images/delivery-van.mp4" type="video/mp4" />
-            </video>
+            <div className={styles.pickupVideo}>
+              <video autoPlay loop muted playsInline>
+                <source src="/images/delivery-van.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </section>
 
     </div>
+
+      {/* ── Love's modal ──────────────────────────────────────────────────── */}
+      {lovesOpen && createPortal(
+        <div className={styles.lovesOverlay} onClick={(e) => { if (e.target === e.currentTarget) closeLovesModal() }}>
+          <div className={styles.lovesModal}>
+            <button className={styles.lovesClose} aria-label="Close" onClick={closeLovesModal}>&times;</button>
+            {lovesSuccess ? (
+              <div className={styles.lovesSuccessWrap}>
+                <div className={styles.lovesCheckCircle}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <h2 className={styles.lovesTitle}>Instructions sent!</h2>
+                <p className={styles.lovesSubtitle}>
+                  We've sent discount instructions to <strong>{lovesForm.email}</strong>.<br/>
+                  Show them at any Love's or Speedco to redeem your fleet discount.
+                </p>
+                <button className={styles.lovesDoneBtn} onClick={closeLovesModal}>Done</button>
+              </div>
+            ) : (
+              <>
+                <h2 className={styles.lovesTitle}>
+                  Get discount instructions{lovesProduct ? ` — ${lovesProduct.name}` : ''}
+                </h2>
+                <p className={styles.lovesSubtitle}>
+                  Fill in your details and we'll send step-by-step instructions on how to use
+                  your fleet discount at any Love's &amp; Speedco truck stop.
+                </p>
+                <form className={styles.lovesForm} onSubmit={handleLovesSubmit} noValidate>
+                  <div className={styles.lovesField}>
+                    <label className={styles.lovesLabel}>Full Name *</label>
+                    <input className={`${styles.lovesInput}${lovesErrors.fullName ? ' ' + styles.lovesInputErr : ''}`}
+                      name="fullName" value={lovesForm.fullName} onChange={handleLovesChange} placeholder="John Smith" />
+                    {lovesErrors.fullName && <span className={styles.lovesErr}>{lovesErrors.fullName}</span>}
+                  </div>
+                  <div className={styles.lovesField}>
+                    <label className={styles.lovesLabel}>Company Name *</label>
+                    <input className={`${styles.lovesInput}${lovesErrors.companyName ? ' ' + styles.lovesInputErr : ''}`}
+                      name="companyName" value={lovesForm.companyName} onChange={handleLovesChange} placeholder="ABC Trucking LLC" />
+                    {lovesErrors.companyName && <span className={styles.lovesErr}>{lovesErrors.companyName}</span>}
+                  </div>
+                  <div className={styles.lovesField}>
+                    <label className={styles.lovesLabel}>Phone *</label>
+                    <input className={`${styles.lovesInput}${lovesErrors.phone ? ' ' + styles.lovesInputErr : ''}`}
+                      name="phone" value={lovesForm.phone} onChange={handleLovesChange} placeholder="(555) 000-0000" type="tel" />
+                    {lovesErrors.phone && <span className={styles.lovesErr}>{lovesErrors.phone}</span>}
+                  </div>
+                  <div className={styles.lovesField}>
+                    <label className={styles.lovesLabel}>Email *</label>
+                    <input className={`${styles.lovesInput}${lovesErrors.email ? ' ' + styles.lovesInputErr : ''}`}
+                      name="email" value={lovesForm.email} onChange={handleLovesChange} placeholder="john@company.com" type="email" />
+                    {lovesErrors.email && <span className={styles.lovesErr}>{lovesErrors.email}</span>}
+                    <span className={styles.lovesHint}>Instructions will be sent to this email address</span>
+                  </div>
+                  <button type="submit" className={styles.lovesSubmit} disabled={lovesLoading}>
+                    {lovesLoading ? <><span className={styles.lovesSpinner} aria-hidden="true"/> Sending…</> : 'Send Instructions'}
+                  </button>
+                </form>
+              </>
+            )}
+          </div>
+        </div>,
+      document.body
+      )}
+    </>
   )
 }

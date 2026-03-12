@@ -34,9 +34,9 @@ export default function Footer() {
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3.62 7.79C5.06 10.62 7.38 12.93 10.21 14.38L12.41 12.18C12.68 11.91 13.08 11.82 13.43 11.94C14.55 12.31 15.76 12.51 17 12.51C17.55 12.51 18 12.96 18 13.51V17C18 17.55 17.55 18 17 18C7.61 18 0 10.39 0 1C0 .45.45 0 1 0H4.5C5.05 0 5.5.45 5.5 1C5.5 2.25 5.7 3.45 6.07 4.57C6.18 4.92 6.1 5.31 5.82 5.59L3.62 7.79Z" fill="#D42C00"/></svg>
               (916) 234-0257
             </a>
-            <a href="https://maps.google.com/?q=1229+Pleasant+Grove+Blvd,+Roseville,+CA+95678" target="_blank" rel="noreferrer" className={styles.contactItem}>
+            <a href="https://maps.google.com/?q=3951+Development+Drive,+Unit+4,+Sacramento,+CA+95838" target="_blank" rel="noreferrer" className={styles.contactItem}>
               <svg width="16" height="20" viewBox="0 0 16 20" fill="none"><path d="M8 0C3.58 0 0 3.58 0 8C0 14 8 20 8 20C8 20 16 14 16 8C16 3.58 12.42 0 8 0ZM8 10.5C6.62 10.5 5.5 9.38 5.5 8C5.5 6.62 6.62 5.5 8 5.5C9.38 5.5 10.5 6.62 10.5 8C10.5 9.38 9.38 10.5 8 10.5Z" fill="#D42C00"/></svg>
-              1229 Pleasant Grove Blvd, Roseville, CA 95678
+              3951 Development Drive, Unit 4, Sacramento, CA 95838
             </a>
             <div className={styles.social}>
               <a href="https://instagram.com" target="_blank" rel="noreferrer" className={`${styles.socialBtn} ${styles.instagram}`}>

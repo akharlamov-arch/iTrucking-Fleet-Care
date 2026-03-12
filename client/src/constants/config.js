@@ -9,7 +9,7 @@ export const COMPANY = {
   email:      'info@ifleetcare.com',
   phone:      '(916) 234-0257',
   phoneHref:  'tel:+19162340257',
-  address:    '1229 Pleasant Grove Blvd, Roseville, CA 95678',
+  address:    '3951 Development Drive, Unit 4, Sacramento, CA 95838',
   warehouseAddress: '3951 Development Drive, Unit 4, Sacramento, CA 95838',
   warehouseHours:   '9 a.m. – 4 p.m.',
 }

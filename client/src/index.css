@@ -1,4 +1,11 @@
 @import './styles/variables.css';
+@import './styles/animations.css';
+
+html {
+  scroll-behavior: smooth;
+  /* offset for sticky header (80px) + 20px breathing room */
+  scroll-padding-top: 140px;
+}
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -27,4 +34,13 @@ img {
 button {
   cursor: pointer;
   font-family: inherit;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+input, textarea, select {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }

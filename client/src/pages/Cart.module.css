@@ -1,6 +1,6 @@
 .page { background: white; min-height: 80vh; }
 
-.breadcrumbsWrap { padding: 20px 40px; max-width: 1440px; margin: 0 auto; }
+
 
 /* Empty state */
 .empty {
@@ -31,7 +31,7 @@
 .emptyBtn:hover { background: #000; color: white; }
 
 /* Main layout */
-.container { max-width: 1440px; margin: 0 auto; padding: 0 40px 120px; }
+.container { max-width: 1440px; margin: 0 auto; padding: 48px 40px 120px; }
 
 .heading {
   font-size: 28px;
@@ -203,6 +203,12 @@
   color: #8A8A8A;
   line-height: 1.6;
 }
+.taxNote {
+  font-size: 11px;
+  color: #ABABAB;
+  line-height: 1.5;
+  margin-top: -4px;
+}
 .checkoutBtn {
   display: block;
   width: 100%;
@@ -229,12 +235,85 @@
 
 /* Responsive */
 @media (max-width: 900px) {
-  .breadcrumbsWrap { padding: 16px 20px; }
-  .container { padding: 0 20px 80px; }
+  .container { padding: 32px 20px 80px; }
   .layout { grid-template-columns: 1fr; }
   .summary { position: static; }
-  .item { grid-template-columns: 80px 1fr; grid-template-rows: auto auto; gap: 12px; }
-  .itemQty { grid-row: 2; }
-  .itemTotal { grid-row: 2; }
-  .removeBtn { grid-column: 2; grid-row: 1; justify-self: end; }
+}
+
+@media (max-width: 768px) {
+  .heading { font-size: 22px; margin-bottom: 24px; }
+
+  /* Card layout: 3 columns × 2 rows
+     col1=image  col2=info(stretch)  col3=delete
+     row2: col2=qty  col3=total */
+  .item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    grid-template-rows: auto auto;
+    column-gap: 14px;
+    row-gap: 12px;
+    align-items: start;
+    padding: 16px 0;
+  }
+
+  /* image spans both rows */
+  .itemImage {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    width: 80px;
+    height: 80px;
+    align-self: start;
+  }
+
+  /* info block: name + meta + unit price */
+  .itemInfo {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+  }
+
+  /* allow name to wrap on small screens */
+  .itemName {
+    white-space: normal;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  /* trash button top-right */
+  .removeBtn {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: start;
+    justify-self: end;
+  }
+
+  /* qty stepper: second row, col 2 */
+  .itemQty {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: center;
+    width: fit-content;
+  }
+
+  /* total price: second row, col 3 */
+  .itemTotal {
+    grid-column: 3;
+    grid-row: 2;
+    align-self: center;
+    justify-self: end;
+    font-size: 15px;
+    min-width: unset;
+    text-align: right;
+  }
+}
+
+@media (max-width: 480px) {
+  .item {
+    grid-template-columns: 68px 1fr auto;
+    column-gap: 12px;
+  }
+  .itemImage { width: 68px; height: 68px; }
+  .summaryTitle { font-size: 16px; }
+  .summaryTotal { font-size: 16px; }
+  .checkoutBtn { font-size: 15px; padding: 14px; }
 }

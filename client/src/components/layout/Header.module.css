@@ -52,7 +52,7 @@
   gap: 16px;
 }
 
-.socialIcons a {
+.socialIcons a:not(.cartBtn) {
   width: 40px;
   height: 40px;
   display: flex;
@@ -63,8 +63,48 @@
   transition: background 0.3s;
 }
 
-.socialIcons a:hover {
+.socialIcons a:not(.cartBtn):hover {
   background: #E0E0E0;
+}
+
+/* Cart button — no circle, distinct from social icons */
+.cartBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: #222222;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: color 0.2s, background 0.2s;
+}
+
+.cartBtn:hover {
+  color: #D42C00;
+  background: #FFF0ED;
+}
+
+.cartBadge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  background: #D42C00;
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 18px;
+  border-radius: 9px;
+  text-align: center;
+}
+
+/* Cart label shown only in mobile menu */
+.cartLabel {
+  display: none;
 }
 
 .ctaButton {
@@ -169,6 +209,42 @@
   justify-content: center;
 }
 
+.mobileMenu .cartBtn {
+  width: auto;
+  height: auto;
+  padding: 12px 0;
+  margin-top: 32px;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: 500;
+  color: #222222;
+  background: none;
+  border-radius: 0;
+  justify-content: flex-start;
+}
+
+.mobileMenu .cartBtn:hover {
+  background: none;
+  color: #D42C00;
+}
+
+.mobileMenu .cartLabel {
+  display: inline;
+}
+
+.mobileMenu .cartBadge {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  font-size: 12px;
+  line-height: 22px;
+  border-radius: 11px;
+}
+
 .mobileMenuActive {
   transform: translateX(0) !important;
 }
@@ -180,6 +256,7 @@
 
 @media (max-width: 768px) {
   .header { padding: 16px 20px; }
+  .logo svg { height: 28px; width: auto; }
   .nav { display: none; }
   .mobileMenuBtn { display: flex; }
   .mobileMenu {

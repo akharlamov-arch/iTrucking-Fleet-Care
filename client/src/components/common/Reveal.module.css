@@ -1,0 +1,28 @@
+.reveal {
+  transition:
+    opacity   0.65s ease,
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+/* ── Hidden starting states ──────────────────────────────────────────────── */
+.revealUp    { opacity: 0; transform: translateY(32px);  }
+.revealLeft  { opacity: 0; transform: translateX(-32px); }
+.revealRight { opacity: 0; transform: translateX(32px);  }
+.revealScale { opacity: 0; transform: scale(0.92);       }
+.revealFade  { opacity: 0; transform: none;              }
+
+/* ── Visible ─────────────────────────────────────────────────────────────── */
+.visible {
+  opacity:   1 !important;
+  transform: none !important;
+}
+
+/* ── Respect user motion preference ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}

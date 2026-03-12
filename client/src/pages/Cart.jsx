@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { useCart } from '../hooks/useCart'
 import { formatPrice } from '../utils/format'
 import { ROUTES } from '../constants/routes'
-import Breadcrumbs from '../components/common/Breadcrumbs'
 import styles from './Cart.module.css'
 
 const TrashIcon = () => (
@@ -27,17 +26,9 @@ const LOCATION_LABELS = {
 export default function Cart() {
   const { items, itemCount, subtotal, tax, total, removeItem, updateQuantity } = useCart()
 
-  const breadcrumbs = [
-    { label: 'Home', href: ROUTES.HOME },
-    { label: 'Cart' },
-  ]
-
   if (items.length === 0) {
     return (
       <div className={styles.page}>
-        <div className={styles.breadcrumbsWrap}>
-          <Breadcrumbs items={breadcrumbs} />
-        </div>
         <div className={styles.empty}>
           <div className={styles.emptyIcon}>
             <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#E2E2E2" strokeWidth="1.5">
@@ -55,10 +46,6 @@ export default function Cart() {
 
   return (
     <div className={styles.page}>
-      <div className={styles.breadcrumbsWrap}>
-        <Breadcrumbs items={breadcrumbs} />
-      </div>
-
       <div className={styles.container}>
         <h1 className={styles.heading}>
           Cart <span className={styles.count}>{itemCount} {itemCount === 1 ? 'tire' : 'tires'}</span>
@@ -130,7 +117,7 @@ export default function Cart() {
                 <span>{formatPrice(subtotal)}</span>
               </div>
               <div className={styles.summaryRow}>
-                <span>Tax (10%)</span>
+                <span>Est. Tax *</span>
                 <span>{formatPrice(tax)}</span>
               </div>
             </div>
@@ -141,7 +128,10 @@ export default function Cart() {
             </div>
 
             <p className={styles.summaryNote}>
-              Payment by invoice only. We will email your Net 30 invoice within 24 hours after order confirmation.
+              Payment by invoice only. We will email your invoice within 24 hours after order confirmation.
+            </p>
+            <p className={styles.taxNote}>
+              * Tax rate varies by delivery state. Exact amount will be confirmed on invoice.
             </p>
 
             <Link to={ROUTES.CHECKOUT} className={styles.checkoutBtn}>

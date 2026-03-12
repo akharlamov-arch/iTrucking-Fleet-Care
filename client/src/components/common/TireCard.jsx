@@ -7,17 +7,23 @@ import styles from './TireCard.module.css'
 /**
  * TireCard
  * Props:
- *   id        – product id for the Link
- *   badge     – { text: string, variant: 'red'|'blue' }
- *   price     – string  e.g. '$485.00'
- *   oldPrice  – string  e.g. '$795.00 retail price'
- *   discount  – string  e.g. '-40%'
- *   name      – string
- *   size      – string  e.g. '295/60R22.5'
- *   tags      – string[]
- *   image     – string  public path  e.g. '/images/hankook-dl15.png'
+ *   id                – product id for the Link
+ *   badge             – { text: string, variant: 'red'|'blue' }
+ *   price             – string  e.g. '$485.00'
+ *   oldPrice          – string  e.g. '$795.00 retail price'
+ *   discount          – string  e.g. '-40%'
+ *   name              – string
+ *   size              – string  e.g. '295/60R22.5'
+ *   tags              – string[]
+ *   image             – string  public path  e.g. '/images/hankook-dl15.png'
+ *   onBuySacramento   – optional callback; if provided renders a <button> instead of <Link>
+ *   onBuyLoves        – optional callback; if provided renders a <button> instead of <Link>
  */
-export default function TireCard({ id = '#', badge, price, oldPrice, discount, name, size, tags = [], image = '/images/tire-product.png' }) {
+export default function TireCard({
+  id = '#', badge, price, oldPrice, discount, name, size, tags = [],
+  image = '/images/tire-product.png',
+  onBuySacramento, onBuyLoves,
+}) {
   return (
     <article className={styles.card}>
       <Link to={`/product/${id}`} className={styles.imageWrapper}>
@@ -49,12 +55,14 @@ export default function TireCard({ id = '#', badge, price, oldPrice, discount, n
         )}
 
         <div className={styles.actions}>
-          <Link to={`/product/${id}`} className={`${styles.btn} ${styles.btnPrimary}`}>
-            Buy in Sacramento
-          </Link>
-          <Link to={`/product/${id}`} className={`${styles.btn} ${styles.btnSecondary}`}>
-            Buy at Love&apos;s
-          </Link>
+          {onBuySacramento
+            ? <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={onBuySacramento}>Buy in Sacramento</button>
+            : <Link to={`/product/${id}`} className={`${styles.btn} ${styles.btnPrimary}`}>Buy in Sacramento</Link>
+          }
+          {onBuyLoves
+            ? <button className={`${styles.btn} ${styles.btnSecondary}`} onClick={onBuyLoves}>Buy at Love&apos;s</button>
+            : <Link to={`/product/${id}`} className={`${styles.btn} ${styles.btnSecondary}`}>Buy at Love&apos;s</Link>
+          }
         </div>
       </div>
     </article>

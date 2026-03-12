@@ -1,11 +1,12 @@
 .breadcrumbs {
-  padding: 20px 40px;
   background: #ffffff;
+  border-bottom: 1px solid #E2E2E2;
 }
 
 .container {
   max-width: 1440px;
   margin: 0 auto;
+  padding: 16px 40px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -41,7 +42,7 @@
 }
 
 @media (max-width: 768px) {
-  .breadcrumbs {
-    padding: 14px 20px;
+  .container {
+    padding: 12px 20px;
   }
 }
