@@ -98,22 +98,22 @@ export default function Header() {
           </Link>
         </nav>
 
-        {/* Mobile cart badge — shown beside hamburger when cart has items */}
-        {positionCount > 0 && (
-          <Link to="/cart" className={styles.headerMobileCart} aria-label={`Cart (${positionCount} items)`}>
-            <CartIcon />
-            <span className={styles.cartBadge}>{positionCount > 99 ? '99+' : positionCount}</span>
-          </Link>
-        )}
-
-        {/* Hamburger */}
-        <button
-          className={`${styles.mobileMenuBtn} ${menuOpen ? styles.active : ''}`}
-          aria-label="Toggle menu"
-          onClick={() => setMenuOpen(v => !v)}
-        >
-          <span /><span /><span />
-        </button>
+        {/* Mobile cart + hamburger group */}
+        <div className={styles.mobileRight}>
+          {positionCount > 0 && (
+            <Link to="/cart" className={styles.headerMobileCart} aria-label={`Cart (${positionCount} items)`}>
+              <CartIcon />
+              <span className={styles.cartBadge}>{positionCount > 99 ? '99+' : positionCount}</span>
+            </Link>
+          )}
+          <button
+            className={`${styles.mobileMenuBtn} ${menuOpen ? styles.active : ''}`}
+            aria-label="Toggle menu"
+            onClick={() => setMenuOpen(v => !v)}
+          >
+            <span /><span /><span />
+          </button>
+        </div>
       </div>
 
       {/* Mobile menu */}

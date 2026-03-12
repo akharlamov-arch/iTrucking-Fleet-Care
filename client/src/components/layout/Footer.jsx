@@ -20,7 +20,7 @@ export default function Footer() {
           {/* Logo */}
           <div className={`${styles.column} ${styles.logoCol}`}>
             <Link to="/" aria-label="iTrucking Fleet Care">
-              <LogoSVG height={60} />
+              <LogoSVG height={40} />
             </Link>
           </div>
 
