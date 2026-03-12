@@ -121,7 +121,7 @@
 
 .mobileSidebar {
   position: fixed;
-  top: 0;
+  top: 64px;
   left: 0;
   bottom: 0;
   width: 85%;
@@ -372,6 +372,15 @@
   font-family: 'Instrument Sans', sans-serif;
   transition: background 0.2s;
 }
+/* DOT block inline in mobile product grid */
+.dotBlockInline {
+  display: none;
+  background: #F5F5F5;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+}
+
 .dotSubmit:hover { background: #000000; }
 
 /* Main content */
@@ -575,6 +584,7 @@
   .sidebarWrap { display: none; }
   .productGrid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
   .catalogHeader { display: none; }
+  .dotBlockInline { display: block; grid-column: 1 / -1; }
 }
 
 @media (max-width: 480px) {

@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from 'react'
+import React, { useState, useMemo, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { ROUTES } from '../constants/routes'
@@ -258,6 +258,12 @@ export default function Catalog() {
   const sentinelRef = useRef(null)
   const mainRef = useRef(null)
   const sidebarWrapRef = useRef(null)
+
+  // Lock body scroll when mobile filter sidebar is open
+  useEffect(() => {
+    document.body.style.overflow = mobileFiltersOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [mobileFiltersOpen])
 
   // ── Love's modal state ──────────────────────────────────────────────────
   const LOVES_INIT = { fullName: '', companyName: '', phone: '', email: '' }
@@ -536,17 +542,30 @@ export default function Catalog() {
                   <>
                     <div className={styles.productGrid}>
                       {filtered.slice(0, visibleCount).map((p, i) => (
-                        <div
-                          key={p.id}
-                          className={styles.cardReveal}
-                          style={{ animationDelay: `${Math.max(0, i - (visibleCount - PAGE_SIZE)) * 75}ms` }}
-                        >
-                          <TireCard
-                            {...p}
-                            onBuySacramento={() => handleBuySacramento(p)}
-                            onBuyLoves={() => openLovesModal(p)}
-                          />
-                        </div>
+                        <React.Fragment key={p.id}>
+                          <div
+                            className={styles.cardReveal}
+                            style={{ animationDelay: `${Math.max(0, i - (visibleCount - PAGE_SIZE)) * 75}ms` }}
+                          >
+                            <TireCard
+                              {...p}
+                              onBuySacramento={() => handleBuySacramento(p)}
+                              onBuyLoves={() => openLovesModal(p)}
+                            />
+                          </div>
+                          {/* DOT card — shown on mobile after 6th item, spans full width */}
+                          {i === 5 && (
+                            <div className={styles.dotBlockInline}>
+                              <p className={styles.dotText}>Present your DOT and receive automatic discounts at</p>
+                              <div className={styles.dotLogos}>
+                                <img src={assetUrl('/images/partners/loves.png')}   alt="Love's"   />
+                                <img src={assetUrl('/images/partners/speedco.png')} alt="Speedco"  />
+                              </div>
+                              <input className={styles.dotInput} type="text" placeholder="Company DOT" />
+                              <button className={styles.dotSubmit}>Submit DOT</button>
+                            </div>
+                          )}
+                        </React.Fragment>
                       ))}
                     </div>
                     {visibleCount < filtered.length && (
