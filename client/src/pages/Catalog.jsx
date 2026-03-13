@@ -117,7 +117,7 @@ function SidebarContent({
         ))}
       </FilterGroup>
 
-      <FilterGroup id="diameter" label="Rim Diameter" defaultOpen={false}>
+      <FilterGroup id="diameter" label="Rim Diameter" defaultOpen>
         {diameters.length > 0
           ? diameters.map(d => (
               <label key={d} className={styles.filterItem}>
@@ -129,7 +129,7 @@ function SidebarContent({
         }
       </FilterGroup>
 
-      <FilterGroup id="size" label="Tire Size" defaultOpen={false}>
+      <FilterGroup id="size" label="Tire Size" defaultOpen>
         {sizes.length > 0
           ? sizes.map(s => (
               <label key={s} className={styles.filterItem}>
@@ -141,7 +141,7 @@ function SidebarContent({
         }
       </FilterGroup>
 
-      <FilterGroup id="position" label="Position" defaultOpen={false}>
+      <FilterGroup id="position" label="Position" defaultOpen>
         {positions.length > 0
           ? positions.map(p => (
               <label key={p} className={styles.filterItem}>
@@ -153,7 +153,7 @@ function SidebarContent({
         }
       </FilterGroup>
 
-      <FilterGroup id="application" label="Application" defaultOpen={false}>
+      <FilterGroup id="application" label="Application" defaultOpen>
         {applications.length > 0
           ? applications.map(a => (
               <label key={a} className={styles.filterItem}>
@@ -165,7 +165,7 @@ function SidebarContent({
         }
       </FilterGroup>
 
-      <FilterGroup id="attributes" label="Attributes" defaultOpen={false}>
+      <FilterGroup id="attributes" label="Attributes" defaultOpen>
         {attributes.length > 0
           ? attributes.map(a => (
               <label key={a} className={styles.filterItem}>
@@ -177,7 +177,7 @@ function SidebarContent({
         }
       </FilterGroup>
 
-      <FilterGroup id="loadRange" label="Load Range/Ply" defaultOpen={false}>
+      <FilterGroup id="loadRange" label="Load Range/Ply" defaultOpen>
         {loadRanges.length > 0
           ? loadRanges.map(lr => (
               <label key={lr} className={styles.filterItem}>
@@ -189,7 +189,7 @@ function SidebarContent({
         }
       </FilterGroup>
 
-      <FilterGroup id="loadIndex" label="Load Index" defaultOpen={false}>
+      <FilterGroup id="loadIndex" label="Load Index" defaultOpen>
         {loadIndexes.length > 0
           ? loadIndexes.map(li => (
               <label key={li} className={styles.filterItem}>
@@ -201,7 +201,7 @@ function SidebarContent({
         }
       </FilterGroup>
 
-      <FilterGroup id="speed" label="Speed Rating" defaultOpen={false}>
+      <FilterGroup id="speed" label="Speed Rating" defaultOpen>
         {speedRatings.length > 0
           ? speedRatings.map(s => (
               <label key={s} className={styles.filterItem}>

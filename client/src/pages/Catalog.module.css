@@ -259,9 +259,12 @@
   top: 124px;
   max-height: calc(100vh - 144px);
   overflow-y: auto;
-  scrollbar-width: none;
+  scrollbar-width: thin;
+  scrollbar-color: #D0D0D0 transparent;
 }
-.sidebar::-webkit-scrollbar { display: none; }
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-track { background: transparent; }
+.sidebar::-webkit-scrollbar-thumb { background: #D0D0D0; border-radius: 4px; }
 
 /* Filter Group */
 .filterGroup {
