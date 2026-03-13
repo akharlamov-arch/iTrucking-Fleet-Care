@@ -175,11 +175,16 @@
   top: 64px;
   left: 0;
   right: 0;
-  bottom: 76px;
+  bottom: 88px;
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
   padding: 16px;
+}
+
+/* Hide DOT block inside mobile filter sidebar */
+.mobileSidebarBody .dotBlock {
+  display: none;
 }
 
 .mobileSidebarFooter {
@@ -187,8 +192,9 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 76px;
+  height: 88px;
   display: flex;
+  align-items: center;
   gap: 12px;
   padding: 16px;
   border-top: 1px solid #E2E2E2;
