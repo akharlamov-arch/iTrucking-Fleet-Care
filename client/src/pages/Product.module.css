@@ -348,6 +348,7 @@
   .productLayout {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto auto;
+    row-gap: 32px;
   }
   .productImageWrap {
     width: 100%;
@@ -357,9 +358,9 @@
   .productMeta {
     grid-column: 2;
     grid-row: 1;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: flex-start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-end;
     gap: 16px;
   }
   .productInfo {
