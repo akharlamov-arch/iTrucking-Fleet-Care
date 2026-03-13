@@ -366,6 +366,15 @@
   .productInfo {
     grid-column: 1 / -1;
   }
+  /* Tire size select = same width as one button */
+  .productInfo > .selectWrap {
+    width: calc(50% - 6px);
+  }
+  /* Two buttons side by side */
+  .productButtons {
+    flex-direction: row;
+    gap: 12px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -385,6 +394,13 @@
   }
   .productInfo {
     width: 100%;
+  }
+  /* Revert tablet overrides */
+  .productInfo > .selectWrap {
+    width: 100%;
+  }
+  .productButtons {
+    flex-direction: column;
   }
   .productSelect {
     width: 100%;
