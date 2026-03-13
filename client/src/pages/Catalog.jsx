@@ -419,6 +419,7 @@ export default function Catalog() {
     setSelectedDiameters([]); setSelectedPositions([]); setSelectedApplications([])
     setSelectedAttributes([]); setSelectedLoadRanges([]); setSelectedLoadIndexes([])
     setSelectedSpeedRatings([])
+    setVisibleCount(products.length)
   }
 
   const activeFilterCount =
