@@ -329,10 +329,12 @@ export default function Catalog() {
 
   const PAGE_SIZE = 6
   const isFirstRender = useRef(true)
+  const isClearingAll = useRef(false)
 
-  // Reset visible count and scroll to grid top whenever filters change (skip on mount)
+  // Reset visible count and scroll to grid top whenever filters change (skip on mount and on clearAll)
   useEffect(() => {
     if (isFirstRender.current) { isFirstRender.current = false; return }
+    if (isClearingAll.current) { isClearingAll.current = false; return }
     setVisibleCount(9)
     if (mainRef.current) {
       mainRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -412,6 +414,7 @@ export default function Catalog() {
   const speedRatings = useMemo(() => [...new Set(products.map(p => p.speedRating).filter(Boolean))].sort(), [products])
 
   const clearAll = () => {
+    isClearingAll.current = true
     setSelectedBrands([]); setSelectedLocation('all'); setSelectedSizes([])
     setSelectedDiameters([]); setSelectedPositions([]); setSelectedApplications([])
     setSelectedAttributes([]); setSelectedLoadRanges([]); setSelectedLoadIndexes([])
