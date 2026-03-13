@@ -753,5 +753,10 @@
 }
 .lovesDoneBtn:hover { background: #222; box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
 @media (max-width: 480px) {
-  .lovesModal { padding: 32px 22px 28px; border-radius: 16px; }
+  .lovesOverlay {
+    align-items: flex-start;
+    overflow-y: auto;
+    padding: max(20px, env(safe-area-inset-top, 0px) + 20px) 12px max(20px, env(safe-area-inset-bottom, 0px) + 20px);
+  }
+  .lovesModal { padding: 32px 22px 28px; border-radius: 16px; max-height: none; }
 }
