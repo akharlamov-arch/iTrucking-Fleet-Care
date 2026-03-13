@@ -117,7 +117,7 @@ function SidebarContent({
         ))}
       </FilterGroup>
 
-      <FilterGroup id="diameter" label="Rim Diameter" defaultOpen>
+      <FilterGroup id="diameter" label="Rim Diameter">
         {diameters.length > 0
           ? diameters.map(d => (
               <label key={d} className={styles.filterItem}>
@@ -129,7 +129,7 @@ function SidebarContent({
         }
       </FilterGroup>
 
-      <FilterGroup id="size" label="Tire Size" defaultOpen>
+      <FilterGroup id="size" label="Tire Size">
         {sizes.length > 0
           ? sizes.map(s => (
               <label key={s} className={styles.filterItem}>
@@ -141,7 +141,7 @@ function SidebarContent({
         }
       </FilterGroup>
 
-      <FilterGroup id="position" label="Position" defaultOpen>
+      <FilterGroup id="position" label="Position">
         {positions.length > 0
           ? positions.map(p => (
               <label key={p} className={styles.filterItem}>
@@ -153,7 +153,7 @@ function SidebarContent({
         }
       </FilterGroup>
 
-      <FilterGroup id="application" label="Application" defaultOpen>
+      <FilterGroup id="application" label="Application">
         {applications.length > 0
           ? applications.map(a => (
               <label key={a} className={styles.filterItem}>
@@ -165,7 +165,7 @@ function SidebarContent({
         }
       </FilterGroup>
 
-      <FilterGroup id="attributes" label="Attributes" defaultOpen>
+      <FilterGroup id="attributes" label="Attributes">
         {attributes.length > 0
           ? attributes.map(a => (
               <label key={a} className={styles.filterItem}>
