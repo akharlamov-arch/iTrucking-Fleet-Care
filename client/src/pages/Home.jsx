@@ -284,7 +284,7 @@ export default function Home() {
                 As an official partner of Love&apos;s Travel Stops and Speedco, our customers can access tire discounts and services at any Love&apos;s or Speedco location across the US. We also operate our own warehouse in Sacramento,&nbsp;CA, helping us provide fast, reliable tire solutions when drivers need them most.
               </p>
               <div className={styles.aboutPartners}>
-                <a href="/catalog" className={styles.exploreButton}>
+                <a href="https://akharlamov-arch.github.io/iTrucking-Fleet-Care/#/catalog" className={styles.exploreButton}>
                   <TruckIcon /> Explore catalog
                 </a>
                 <div className={styles.partnerLogos}>
