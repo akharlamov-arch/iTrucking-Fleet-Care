@@ -125,13 +125,13 @@
   left: 0;
   width: 85%;
   max-width: 320px;
-  height: 100vh;
+  height: 100vh;       /* fallback for old browsers */
+  height: 100dvh;      /* iOS 15.4+ — real visible height, excludes browser toolbar */
   background: #ffffff;
   z-index: 2000;
   transform: translateX(-100%);
   transition: transform 0.3s ease;
   box-shadow: 2px 0 12px rgba(0,0,0,0.15);
-  /* use absolute children instead of flex to guarantee iOS scroll */
 }
 
 .mobileSidebarOpen { transform: translateX(0); }
