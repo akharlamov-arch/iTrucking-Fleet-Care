@@ -57,12 +57,12 @@ export default function TireCard({
 
         <div className={styles.actions}>
           {onBuySacramento
-            ? <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={onBuySacramento}>Buy in Sacramento</button>
-            : <Link to={`/product/${id}`} className={`${styles.btn} ${styles.btnPrimary}`}>Buy in Sacramento</Link>
+            ? <button className={`${styles.btn} ${styles.btnPrimary}`} onClick={onBuySacramento}>Buy in Sacramento&apos;s Warehouse</button>
+            : <Link to={`/product/${id}`} className={`${styles.btn} ${styles.btnPrimary}`}>Buy in Sacramento&apos;s Warehouse</Link>
           }
           {onBuyLoves
-            ? <button className={`${styles.btn} ${styles.btnSecondary}`} onClick={onBuyLoves}>Buy at Love&apos;s</button>
-            : <Link to={`/product/${id}`} className={`${styles.btn} ${styles.btnSecondary}`}>Buy at Love&apos;s</Link>
+            ? <button className={`${styles.btn} ${styles.btnSecondary}`} onClick={onBuyLoves}>Buy at Love&apos;s &amp; Speedco truck stops</button>
+            : <Link to={`/product/${id}`} className={`${styles.btn} ${styles.btnSecondary}`}>Buy at Love&apos;s &amp; Speedco truck stops</Link>
           }
         </div>
       </div>

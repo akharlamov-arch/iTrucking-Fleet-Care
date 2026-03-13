@@ -315,7 +315,7 @@ export default function Product() {
                   Buy in Sacramento's Warehouse
                 </button>
                 <button className={styles.btnSecondary} onClick={openLovesModal}>
-                  Buy at any Love's &amp; Speedco truck stops
+                  Buy at Love&apos;s &amp; Speedco truck stops
                 </button>
               </div>
 
