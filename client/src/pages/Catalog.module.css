@@ -241,11 +241,12 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 280px 1fr;
-  align-items: stretch;
+  align-items: start;
   gap: 40px;
+  min-height: calc(100vh - 160px);
 }
 
-/* Sidebar wrapper — JS sets its height = main offsetHeight so sticky releases exactly at last card row */
+/* Sidebar wrapper */
 .sidebarWrap {
   position: relative;
 }
@@ -255,6 +256,8 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  position: sticky;
+  top: 124px;
 }
 
 /* Filter Group */
