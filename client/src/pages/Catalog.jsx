@@ -177,7 +177,7 @@ function SidebarContent({
         }
       </FilterGroup>
 
-      <FilterGroup id="loadRange" label="Load Range/Ply" defaultOpen>
+      <FilterGroup id="loadRange" label="Load Range/Ply">
         {loadRanges.length > 0
           ? loadRanges.map(lr => (
               <label key={lr} className={styles.filterItem}>
@@ -189,7 +189,7 @@ function SidebarContent({
         }
       </FilterGroup>
 
-      <FilterGroup id="loadIndex" label="Load Index" defaultOpen>
+      <FilterGroup id="loadIndex" label="Load Index">
         {loadIndexes.length > 0
           ? loadIndexes.map(li => (
               <label key={li} className={styles.filterItem}>
@@ -201,7 +201,7 @@ function SidebarContent({
         }
       </FilterGroup>
 
-      <FilterGroup id="speed" label="Speed Rating" defaultOpen>
+      <FilterGroup id="speed" label="Speed Rating">
         {speedRatings.length > 0
           ? speedRatings.map(s => (
               <label key={s} className={styles.filterItem}>
