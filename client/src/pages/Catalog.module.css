@@ -175,7 +175,7 @@
   top: 64px;
   left: 0;
   right: 0;
-  bottom: 88px;
+  bottom: calc(88px + env(safe-area-inset-bottom, 0px));
   overflow-y: scroll;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
@@ -192,11 +192,11 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 88px;
+  height: calc(88px + env(safe-area-inset-bottom, 0px));
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 16px;
+  padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid #E2E2E2;
   background: #ffffff;
 }
