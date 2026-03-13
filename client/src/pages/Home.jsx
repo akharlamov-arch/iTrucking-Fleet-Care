@@ -326,7 +326,7 @@ export default function Home() {
 
           <Reveal delay={200}>
             <div className={styles.exploreMore}>
-              <a href="/catalog" className={styles.exploreMoreBtn}>
+              <a href="https://akharlamov-arch.github.io/iTrucking-Fleet-Care/#/catalog" className={styles.exploreMoreBtn}>
                 <TruckIcon /> Explore more tires
               </a>
             </div>
