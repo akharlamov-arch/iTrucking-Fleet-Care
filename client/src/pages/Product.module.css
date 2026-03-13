@@ -643,6 +643,7 @@
     justify-content: flex-start;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    touch-action: pan-x;
   }
   .tabsNav::-webkit-scrollbar {
     display: none;
