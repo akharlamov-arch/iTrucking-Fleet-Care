@@ -241,7 +241,7 @@
   margin: 0 auto;
   display: grid;
   grid-template-columns: 280px 1fr;
-  align-items: start;
+  align-items: stretch;
   gap: 40px;
   min-height: calc(100vh - 160px);
 }
@@ -249,6 +249,7 @@
 /* Sidebar wrapper */
 .sidebarWrap {
   position: relative;
+  align-self: stretch;
 }
 
 /* Sidebar */
